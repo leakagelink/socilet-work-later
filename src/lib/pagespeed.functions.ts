@@ -33,16 +33,30 @@ export const runPageSpeedFn = createServerFn({ method: "POST" })
     const api = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?${params.toString()}`;
 
     const res = await fetch(api);
-    if (!res.ok) {
-      let msg = `PageSpeed request failed (${res.status})`;
-      try {
-        const err = (await res.json()) as { error?: { message?: string } };
-        if (err?.error?.message) msg = err.error.message;
-      } catch {}
+    const json: any = await res.json().catch(() => ({}));
+
+    // Google returns 200 even when Lighthouse fails — check runtimeError
+    const runtimeError = json?.lighthouseResult?.runtimeError;
+    if (runtimeError?.code && runtimeError.code !== "NO_ERROR") {
+      const code = runtimeError.code as string;
+      let friendly = `Couldn't analyze this site (${code}).`;
+      if (code === "FAILED_DOCUMENT_REQUEST") {
+        friendly =
+          "Google couldn't load this site — it timed out or blocked the request. Try a different URL, or check that the site is publicly accessible.";
+      } else if (code === "DNS_FAILURE") {
+        friendly = "DNS lookup failed. Check the URL spelling.";
+      } else if (code === "NO_FCP") {
+        friendly = "The page never finished rendering. It may be broken or too slow.";
+      }
+      throw new Error(friendly);
+    }
+
+    if (!res.ok || !json?.lighthouseResult) {
+      const msg = json?.error?.message || `PageSpeed request failed (${res.status})`;
       throw new Error(msg);
     }
 
-    const json = (await res.json()) as {
+    return json as {
       lighthouseResult: {
         categories: Record<string, { score: number | null; auditRefs?: Array<{ id: string }> }>;
         audits: Record<
@@ -51,5 +65,5 @@ export const runPageSpeedFn = createServerFn({ method: "POST" })
         >;
       };
     };
-    return json;
   });
+
