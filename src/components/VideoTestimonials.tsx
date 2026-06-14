@@ -82,7 +82,7 @@ export function VideoTestimonials() {
           Hear it from our clients
         </h2>
       </div>
-      <div className="-mx-5 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-2">
+      <div className="flex flex-col gap-4">
         {VIDEOS.map((v) => (
           <VideoCard key={v.id} v={v} />
         ))}
