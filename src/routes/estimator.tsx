@@ -392,7 +392,7 @@ function Estimator() {
           {step < totalSteps ? (
             <Button
               className="flex-1 bg-gradient-primary shadow-glow"
-              disabled={(step === 1 && !projectType) || (step === 3 && !timeline)}
+              disabled={(step === 1 && !projectType) || (step === 4 && !timeline)}
               onClick={() => setStep(step + 1)}
             >
               Continue
