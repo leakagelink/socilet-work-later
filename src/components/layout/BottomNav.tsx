@@ -4,8 +4,8 @@ import { Home, Calculator, Briefcase, Gift, User } from "lucide-react";
 const items = [
   { to: "/", label: "Home", icon: Home },
   { to: "/estimator", label: "Estimate", icon: Calculator },
-  { to: "/portfolio", label: "Portfolio", icon: Briefcase },
   { to: "/referral", label: "Refer", icon: Gift },
+  { to: "/portfolio", label: "Portfolio", icon: Briefcase },
   { to: "/profile", label: "Profile", icon: User },
 ] as const;
 
