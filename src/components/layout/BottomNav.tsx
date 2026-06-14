@@ -1,9 +1,9 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Home, Wrench, Briefcase, Gift, User } from "lucide-react";
+import { Home, Calculator, Briefcase, Gift, User } from "lucide-react";
 
 const normalItems = [
   { to: "/", label: "Home", icon: Home },
-  { to: "/tools", label: "Tools", icon: Wrench },
+  { to: "/estimator", label: "Estimate", icon: Calculator },
   { to: "/portfolio", label: "Portfolio", icon: Briefcase },
   { to: "/profile", label: "Profile", icon: User },
 ] as const;
