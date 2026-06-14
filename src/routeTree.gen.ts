@@ -18,6 +18,7 @@ import { Route as ReferralRouteImport } from './routes/referral'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as NotificationsRouteImport } from './routes/notifications'
+import { Route as FaqRouteImport } from './routes/faq'
 import { Route as EstimatorRouteImport } from './routes/estimator'
 import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -73,6 +74,11 @@ const PortfolioRoute = PortfolioRouteImport.update({
 const NotificationsRoute = NotificationsRouteImport.update({
   id: '/notifications',
   path: '/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EstimatorRoute = EstimatorRouteImport.update({
@@ -135,6 +141,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/blog': typeof BlogRoute
   '/estimator': typeof EstimatorRoute
+  '/faq': typeof FaqRoute
   '/notifications': typeof NotificationsRoute
   '/portfolio': typeof PortfolioRoute
   '/profile': typeof ProfileRoute
@@ -156,6 +163,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/blog': typeof BlogRoute
   '/estimator': typeof EstimatorRoute
+  '/faq': typeof FaqRoute
   '/notifications': typeof NotificationsRoute
   '/portfolio': typeof PortfolioRoute
   '/profile': typeof ProfileRoute
@@ -178,6 +186,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/blog': typeof BlogRoute
   '/estimator': typeof EstimatorRoute
+  '/faq': typeof FaqRoute
   '/notifications': typeof NotificationsRoute
   '/portfolio': typeof PortfolioRoute
   '/profile': typeof ProfileRoute
@@ -201,6 +210,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/blog'
     | '/estimator'
+    | '/faq'
     | '/notifications'
     | '/portfolio'
     | '/profile'
@@ -222,6 +232,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/blog'
     | '/estimator'
+    | '/faq'
     | '/notifications'
     | '/portfolio'
     | '/profile'
@@ -243,6 +254,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/blog'
     | '/estimator'
+    | '/faq'
     | '/notifications'
     | '/portfolio'
     | '/profile'
@@ -266,6 +278,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   BlogRoute: typeof BlogRoute
   EstimatorRoute: typeof EstimatorRoute
+  FaqRoute: typeof FaqRoute
   NotificationsRoute: typeof NotificationsRoute
   PortfolioRoute: typeof PortfolioRoute
   ProfileRoute: typeof ProfileRoute
@@ -340,6 +353,13 @@ declare module '@tanstack/react-router' {
       path: '/notifications'
       fullPath: '/notifications'
       preLoaderRoute: typeof NotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/estimator': {
@@ -457,6 +477,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   BlogRoute: BlogRoute,
   EstimatorRoute: EstimatorRoute,
+  FaqRoute: FaqRoute,
   NotificationsRoute: NotificationsRoute,
   PortfolioRoute: PortfolioRoute,
   ProfileRoute: ProfileRoute,
