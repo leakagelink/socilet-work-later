@@ -393,8 +393,60 @@ function Estimator() {
                 </div>
               </div>
             </div>
+            <Card className="mt-4 border-emerald-500/30 bg-emerald-500/5 p-4">
+              <Label className="flex items-center gap-1.5 text-sm font-semibold">
+                <Tag className="h-4 w-4 text-emerald-500" /> Referral code (optional)
+              </Label>
+              <p className="mt-0.5 text-[11px] text-muted-foreground">
+                Got a code from a friend? Get 10% off your project.
+              </p>
+              <div className="mt-2 flex gap-2">
+                <Input
+                  value={referralCode}
+                  onChange={(e) => { setReferralCode(e.target.value.toUpperCase()); setReferralApplied(false); }}
+                  placeholder="e.g. SOCABC12"
+                  className="uppercase"
+                  disabled={referralApplied}
+                />
+                {referralApplied ? (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => { setReferralApplied(false); setReferralCode(""); try { localStorage.removeItem("socilet:refUsed"); } catch {} }}
+                  >
+                    Remove
+                  </Button>
+                ) : (
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      const c = referralCode.trim().toUpperCase();
+                      const myCode = (localStorage.getItem("socilet:refCode") || "").toUpperCase();
+                      if (!c) return toast.error("Enter a referral code");
+                      if (c === myCode) return toast.error("You can't use your own referral code");
+                      if (!/^SOC[A-Z0-9]{4,}$/.test(c)) return toast.error("Invalid code format");
+                      setReferralApplied(true);
+                      try { localStorage.setItem("socilet:refUsed", c); } catch {}
+                      toast.success("10% discount applied!");
+                    }}
+                  >
+                    Apply
+                  </Button>
+                )}
+              </div>
+              {referralApplied && (
+                <p className="mt-2 text-[11px] font-medium text-emerald-500">
+                  ✓ 10% off applied — you save ${discountAmount.toLocaleString()}
+                </p>
+              )}
+            </Card>
             <Card className="bg-gradient-card mt-4 border-border p-4">
               <p className="text-xs text-muted-foreground">Your estimate</p>
+              {referralApplied && (
+                <p className="text-xs text-muted-foreground line-through">
+                  ${rawMin.toLocaleString()} – ${rawMax.toLocaleString()}
+                </p>
+              )}
               <p className="font-display text-lg font-semibold text-gradient">
                 ${min.toLocaleString()} – ${max.toLocaleString()}
               </p>
