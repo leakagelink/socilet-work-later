@@ -5,9 +5,10 @@ const config: CapacitorConfig = {
   appName: 'Socilet',
   webDir: 'dist/client',
   server: {
-    // For live-reload during development, uncomment and set your dev URL:
-    // url: 'https://<your-preview-url>.lovable.app',
-    // cleartext: true,
+    // TanStack Start is SSR — the mobile app loads the published site in a WebView.
+    // For local dev with live-reload, replace url with your preview URL.
+    url: 'https://socilet-work-later.lovable.app',
+    cleartext: false,
     androidScheme: 'https',
   },
   android: {
