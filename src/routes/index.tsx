@@ -207,15 +207,7 @@ function Home() {
             {portfolioProjects.slice(0, 8).map((p, i) => (
               <a key={p.id} href={p.url} target="_blank" rel="noopener noreferrer" className="min-w-[220px] snap-start">
                 <Card className="h-full overflow-hidden border-border bg-card transition hover:border-primary/30">
-                  <div className={`relative aspect-[4/3] overflow-hidden bg-gradient-to-br ${getPortfolioColor(i)}`}>
-                    <img
-                      src={`https://image.thum.io/get/width/600/crop/450/noanimate/${p.url}`}
-                      alt={`${p.title} website preview`}
-                      loading="lazy"
-                      className="absolute inset-0 h-full w-full object-cover object-top"
-                      onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
-                    />
-                  </div>
+                  <div className={`aspect-[4/3] bg-gradient-to-br ${getPortfolioColor(i)}`} />
                   <div className="p-3">
                     <p className="text-sm font-semibold">{p.title}</p>
                     <p className="text-xs text-muted-foreground">{p.tag}</p>
