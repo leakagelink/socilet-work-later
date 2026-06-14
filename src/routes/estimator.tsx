@@ -22,13 +22,14 @@ export const Route = createFileRoute("/estimator")({
 });
 
 const projectTypes = [
-  { id: "website", label: "Website", icon: Globe, base: 800 },
-  { id: "ecommerce", label: "Ecommerce", icon: ShoppingBag, base: 1500 },
-  { id: "mobile", label: "Mobile App", icon: Smartphone, base: 3000 },
-  { id: "crm", label: "CRM", icon: Database, base: 2500 },
-  { id: "saas", label: "SaaS", icon: Cloud, base: 5000 },
-  { id: "ai", label: "AI Automation", icon: Bot, base: 2000 },
-  { id: "custom", label: "Custom Software", icon: Wrench, base: 3500 },
+  { id: "landing", label: "Landing Page", icon: Globe, base: 50, max: 50 },
+  { id: "website", label: "Business Website", icon: Globe, base: 100, max: 1500 },
+  { id: "ecommerce", label: "E-commerce", icon: ShoppingBag, base: 200, max: 2500 },
+  { id: "webapp", label: "Web Application", icon: Wrench, base: 50, max: 5000 },
+  { id: "crm", label: "CRM", icon: Database, base: 50, max: 5000 },
+  { id: "ai", label: "AI Automation", icon: Bot, base: 50, max: 5000 },
+  { id: "mobile", label: "Mobile App", icon: Smartphone, base: 10000, max: 10000 },
+  { id: "saas", label: "SaaS Product", icon: Cloud, base: 10000, max: 10000 },
 ];
 
 const featuresList = [
@@ -110,14 +111,16 @@ function Estimator() {
   const totalSteps = 5;
   const progress = (step / totalSteps) * 100;
 
-  const base = projectTypes.find((p) => p.id === projectType)?.base ?? 0;
+  const proj = projectTypes.find((p) => p.id === projectType);
+  const base = proj?.base ?? 0;
+  const maxBase = proj?.max ?? base;
   const featuresCost = features.reduce((s, id) => s + (featuresList.find((f) => f.id === id)?.cost ?? 0), 0);
   const mult = timelines.find((t) => t.id === timeline)?.mult ?? 1;
   const designMult = designOptions.find((d) => d.id === designStatus)?.mult ?? 1;
   const pagesNum = pagesCount ? Math.min(Number(pagesCount), 200) : 0;
   const pagesCost = pagesNum > 5 ? (pagesNum - 5) * 80 : 0;
   const rawMin = Math.round(((base + featuresCost + pagesCost) * mult) * designMult);
-  const rawMax = Math.round(rawMin * 1.5);
+  const rawMax = Math.round(((maxBase + featuresCost + pagesCost) * mult) * designMult);
   const discountPct = referralApplied ? 0.1 : 0;
   const min = Math.round(rawMin * (1 - discountPct));
   const max = Math.round(rawMax * (1 - discountPct));
