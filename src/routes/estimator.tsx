@@ -108,8 +108,15 @@ function Estimator() {
     } catch {}
   }, []);
 
-  const totalSteps = 5;
-  const progress = (step / totalSteps) * 100;
+  const isLanding = projectType === "landing";
+  const stepFlow = isLanding ? [1, 4, 5] : [1, 2, 3, 4, 5];
+  const currentIdx = Math.max(0, stepFlow.indexOf(step));
+  const totalSteps = stepFlow.length;
+  const displayStep = currentIdx + 1;
+  const progress = (displayStep / totalSteps) * 100;
+  const isLastStep = currentIdx === stepFlow.length - 1;
+  const goNext = () => setStep(stepFlow[Math.min(currentIdx + 1, stepFlow.length - 1)]);
+  const goBack = () => setStep(stepFlow[Math.max(currentIdx - 1, 0)]);
 
   const proj = projectTypes.find((p) => p.id === projectType);
   const base = proj?.base ?? 0;
