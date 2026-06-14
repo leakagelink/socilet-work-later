@@ -45,14 +45,6 @@ export function SplashScreen({ onComplete, minDisplayTime = 2200 }: SplashScreen
         />
       </div>
 
-      {/* Brand name */}
-      <h1
-        className={`mt-5 font-display text-2xl font-semibold tracking-tight text-foreground transition-all duration-700 delay-150 ${
-          phase === "enter" ? "translate-y-3 opacity-0" : "translate-y-0 opacity-100"
-        }`}
-      >
-        Socilet
-      </h1>
 
       {/* Tagline */}
       <p
