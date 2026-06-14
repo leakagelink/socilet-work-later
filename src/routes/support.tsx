@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { Card } from "@/components/ui/card";
@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
-import { MessageCircle, Mail, Phone, Send } from "lucide-react";
+import { MessageCircle, Mail, Phone, Send, HelpCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -121,14 +121,16 @@ function Support() {
           </TabsContent>
 
           <TabsContent value="faq" className="mt-4">
-            <Accordion type="single" collapsible>
-              {faqs.map((f, i) => (
-                <AccordionItem key={i} value={`item-${i}`}>
-                  <AccordionTrigger className="text-left text-sm">{f.q}</AccordionTrigger>
-                  <AccordionContent className="text-sm text-muted-foreground">{f.a}</AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
+            <Card className="border-border bg-card p-5 text-center">
+              <HelpCircle className="mx-auto h-8 w-8 text-primary-glow" />
+              <p className="mt-2 text-sm font-semibold">Have questions?</p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Browse our full FAQ for answers on payment, affiliate program, services & more.
+              </p>
+              <Button asChild className="mt-3 bg-gradient-primary shadow-glow">
+                <Link to="/faq">View all FAQs</Link>
+              </Button>
+            </Card>
           </TabsContent>
         </Tabs>
       </main>
