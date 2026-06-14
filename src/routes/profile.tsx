@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { User, FileText, Briefcase, Ticket, Gift, ChevronRight, Bell, BookOpen, Wrench, Shield, LogOut, LogIn, HelpCircle } from "lucide-react";
+import { User, FileText, Briefcase, Ticket, Gift, ChevronRight, Bell, BookOpen, Wrench, Shield, LogOut, LogIn, HelpCircle, Route as RouteIcon } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -49,8 +49,9 @@ function Profile() {
   const menu = [
     { to: "/estimator" as const, icon: FileText, label: "Saved estimates", desc: estimate ? "1 saved" : "None yet" },
     { to: "/portfolio" as const, icon: Briefcase, label: "Submitted projects", desc: "Track via support" },
-    { to: "/support" as const, icon: Ticket, label: "Support tickets", desc: "Open / closed" },
+    { to: "/how-it-works" as const, icon: RouteIcon, label: "How it works", desc: "Our process" },
     { to: "/faq" as const, icon: HelpCircle, label: "FAQ", desc: "Questions answered" },
+    { to: "/support" as const, icon: Ticket, label: "Support tickets", desc: "Open / closed" },
     { to: "/referral" as const, icon: Gift, label: "Referrals", desc: "Earn credits" },
     { to: "/notifications" as const, icon: Bell, label: "Notifications", desc: "Updates & offers" },
     { to: "/blog" as const, icon: BookOpen, label: "Blog", desc: "Read insights" },

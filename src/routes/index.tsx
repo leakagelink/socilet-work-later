@@ -267,6 +267,11 @@ function Home() {
                 <li key={t} className="flex items-center gap-2"><CheckCircle2 className="h-4 w-4" /> {t}</li>
               ))}
             </ul>
+            <div className="mt-4">
+              <Link to="/how-it-works" className="inline-flex items-center gap-1 rounded-full bg-primary-foreground/15 px-4 py-2 text-xs font-semibold text-primary-foreground backdrop-blur-sm transition hover:bg-primary-foreground/25">
+                How it works <ArrowRight className="h-3 w-3" />
+              </Link>
+            </div>
             <p className="mt-3 text-[10px] opacity-70">Subject to scope and signed agreement. Not a financial product.</p>
           </Card>
         </section>
