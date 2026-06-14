@@ -158,6 +158,24 @@ function Home() {
           </div>
         </section>
 
+        {/* Free Tools banner */}
+        <section className="px-5 py-4">
+          <Link to="/tools">
+            <Card className="relative overflow-hidden border-primary/30 bg-gradient-to-br from-primary/15 via-fuchsia-500/10 to-amber-500/10 p-5 transition hover:shadow-glow">
+              <span className="inline-flex items-center gap-1 rounded-full bg-background/80 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary">
+                <Sparkles className="h-3 w-3" /> 100% Free
+              </span>
+              <h3 className="mt-2 font-display text-lg font-bold">Free Tools for Your Business</h3>
+              <p className="mt-1 text-xs text-muted-foreground">
+                SEO Checker · Speed Test · Quote Calculator · PDF Quotation Maker
+              </p>
+              <div className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-primary">
+                Explore all tools <ArrowRight className="h-3 w-3" />
+              </div>
+            </Card>
+          </Link>
+        </section>
+
         {/* Why Choose */}
         <section className="px-5 py-4">
           <h2 className="mb-4 font-display text-xl font-semibold">Why Socilet</h2>
