@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { VideoTestimonials } from "@/components/VideoTestimonials";
+import { portfolioProjects, getPortfolioColor } from "@/lib/portfolio-data";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -203,18 +204,16 @@ function Home() {
             <Link to="/portfolio" className="text-xs text-primary-glow">All projects →</Link>
           </div>
           <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 -mx-5 px-5">
-            {[
-              { title: "Bloom Commerce", tag: "Shopify rebuild", color: "from-pink-500/30 to-violet-500/30" },
-              { title: "FinEdge CRM", tag: "Custom SaaS", color: "from-blue-500/30 to-cyan-500/30" },
-              { title: "MetroFit App", tag: "iOS & Android", color: "from-emerald-500/30 to-indigo-500/30" },
-            ].map((p) => (
-              <Card key={p.title} className="min-w-[240px] snap-start overflow-hidden border-border bg-card">
-                <div className={`aspect-[4/3] bg-gradient-to-br ${p.color}`} />
-                <div className="p-3">
-                  <p className="text-sm font-semibold">{p.title}</p>
-                  <p className="text-xs text-muted-foreground">{p.tag}</p>
-                </div>
-              </Card>
+            {portfolioProjects.slice(0, 8).map((p, i) => (
+              <a key={p.id} href={p.url} target="_blank" rel="noopener noreferrer" className="min-w-[220px] snap-start">
+                <Card className="h-full overflow-hidden border-border bg-card transition hover:border-primary/30">
+                  <div className={`aspect-[4/3] bg-gradient-to-br ${getPortfolioColor(i)}`} />
+                  <div className="p-3">
+                    <p className="text-sm font-semibold">{p.title}</p>
+                    <p className="text-xs text-muted-foreground">{p.tag}</p>
+                  </div>
+                </Card>
+              </a>
             ))}
           </div>
         </section>
