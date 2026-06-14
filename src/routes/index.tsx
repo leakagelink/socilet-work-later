@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppHeader } from "@/components/layout/AppHeader";
+import { VideoTestimonials } from "@/components/VideoTestimonials";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
