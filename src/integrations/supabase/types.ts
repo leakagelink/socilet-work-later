@@ -14,7 +14,141 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      estimates: {
+        Row: {
+          budget_max: number | null
+          budget_min: number | null
+          created_at: string
+          email: string
+          features: Json
+          id: string
+          name: string
+          notes: string | null
+          phone: string | null
+          project_type: string
+          timeline: string | null
+        }
+        Insert: {
+          budget_max?: number | null
+          budget_min?: number | null
+          created_at?: string
+          email: string
+          features?: Json
+          id?: string
+          name: string
+          notes?: string | null
+          phone?: string | null
+          project_type: string
+          timeline?: string | null
+        }
+        Update: {
+          budget_max?: number | null
+          budget_min?: number | null
+          created_at?: string
+          email?: string
+          features?: Json
+          id?: string
+          name?: string
+          notes?: string | null
+          phone?: string | null
+          project_type?: string
+          timeline?: string | null
+        }
+        Relationships: []
+      }
+      leads: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          message: string | null
+          name: string
+          phone: string | null
+          service: string | null
+          source: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          message?: string | null
+          name: string
+          phone?: string | null
+          service?: string | null
+          source?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string | null
+          name?: string
+          phone?: string | null
+          service?: string | null
+          source?: string | null
+        }
+        Relationships: []
+      }
+      referrals: {
+        Row: {
+          code: string
+          created_at: string
+          id: string
+          referred_email: string | null
+          referrer_email: string | null
+          status: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          id?: string
+          referred_email?: string | null
+          referrer_email?: string | null
+          status?: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          id?: string
+          referred_email?: string | null
+          referrer_email?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
+      support_tickets: {
+        Row: {
+          category: string | null
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+          status: string
+          subject: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+          status?: string
+          subject: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          status?: string
+          subject?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
