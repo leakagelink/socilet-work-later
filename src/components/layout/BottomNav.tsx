@@ -62,21 +62,21 @@ export function BottomNav() {
   const centerActive =
     pathname === centerItem.to || pathname.startsWith(centerItem.to);
 
+  const isActive = (route: string) =>
+    pathname === route || (route !== "/" && pathname.startsWith(route));
+
   return (
     <nav className="fixed bottom-0 left-1/2 z-50 w-full max-w-[480px] -translate-x-1/2 border-t border-border/50 bg-background/90 shadow-[0_-4px_20px_-8px_rgba(0,0,0,0.08)] backdrop-blur-2xl">
       <ul className="grid grid-cols-5 items-end px-1 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-1">
-        {leftItems.map(({ to, label, icon }) => {
-          const active = pathname === to || (to !== "/" && pathname.startsWith(to));
-          return (
-            <NavLink
-              key={to}
-              to={to}
-              label={label}
-              icon={icon}
-              active={active}
-            />
-          );
-        })}
+        {leftItems.map(({ to, label, icon }) => (
+          <NavLink
+            key={to}
+            to={to}
+            label={label}
+            icon={icon}
+            active={isActive(to)}
+          />
+        ))}
 
         {/* Center floating CTA */}
         <li key={centerItem.to} className="relative flex justify-center">
@@ -101,18 +101,15 @@ export function BottomNav() {
           </span>
         </li>
 
-        {rightItems.map(({ to, label, icon }) => {
-          const active = pathname === to || (to !== "/" && pathname.startsWith(to));
-          return (
-            <NavLink
-              key={to}
-              to={to}
-              label={label}
-              icon={icon}
-              active={active}
-            />
-          );
-        })}
+        {rightItems.map(({ to, label, icon }) => (
+          <NavLink
+            key={to}
+            to={to}
+            label={label}
+            icon={icon}
+            active={isActive(to)}
+          />
+        ))}
       </ul>
     </nav>
   );
