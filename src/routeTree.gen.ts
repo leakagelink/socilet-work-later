@@ -18,6 +18,7 @@ import { Route as ReferralRouteImport } from './routes/referral'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as NotificationsRouteImport } from './routes/notifications'
+import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as EstimatorRouteImport } from './routes/estimator'
 import { Route as BlogRouteImport } from './routes/blog'
@@ -74,6 +75,11 @@ const PortfolioRoute = PortfolioRouteImport.update({
 const NotificationsRoute = NotificationsRouteImport.update({
   id: '/notifications',
   path: '/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HowItWorksRoute = HowItWorksRouteImport.update({
+  id: '/how-it-works',
+  path: '/how-it-works',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaqRoute = FaqRouteImport.update({
@@ -142,6 +148,7 @@ export interface FileRoutesByFullPath {
   '/blog': typeof BlogRoute
   '/estimator': typeof EstimatorRoute
   '/faq': typeof FaqRoute
+  '/how-it-works': typeof HowItWorksRoute
   '/notifications': typeof NotificationsRoute
   '/portfolio': typeof PortfolioRoute
   '/profile': typeof ProfileRoute
@@ -164,6 +171,7 @@ export interface FileRoutesByTo {
   '/blog': typeof BlogRoute
   '/estimator': typeof EstimatorRoute
   '/faq': typeof FaqRoute
+  '/how-it-works': typeof HowItWorksRoute
   '/notifications': typeof NotificationsRoute
   '/portfolio': typeof PortfolioRoute
   '/profile': typeof ProfileRoute
@@ -187,6 +195,7 @@ export interface FileRoutesById {
   '/blog': typeof BlogRoute
   '/estimator': typeof EstimatorRoute
   '/faq': typeof FaqRoute
+  '/how-it-works': typeof HowItWorksRoute
   '/notifications': typeof NotificationsRoute
   '/portfolio': typeof PortfolioRoute
   '/profile': typeof ProfileRoute
@@ -211,6 +220,7 @@ export interface FileRouteTypes {
     | '/blog'
     | '/estimator'
     | '/faq'
+    | '/how-it-works'
     | '/notifications'
     | '/portfolio'
     | '/profile'
@@ -233,6 +243,7 @@ export interface FileRouteTypes {
     | '/blog'
     | '/estimator'
     | '/faq'
+    | '/how-it-works'
     | '/notifications'
     | '/portfolio'
     | '/profile'
@@ -255,6 +266,7 @@ export interface FileRouteTypes {
     | '/blog'
     | '/estimator'
     | '/faq'
+    | '/how-it-works'
     | '/notifications'
     | '/portfolio'
     | '/profile'
@@ -279,6 +291,7 @@ export interface RootRouteChildren {
   BlogRoute: typeof BlogRoute
   EstimatorRoute: typeof EstimatorRoute
   FaqRoute: typeof FaqRoute
+  HowItWorksRoute: typeof HowItWorksRoute
   NotificationsRoute: typeof NotificationsRoute
   PortfolioRoute: typeof PortfolioRoute
   ProfileRoute: typeof ProfileRoute
@@ -353,6 +366,13 @@ declare module '@tanstack/react-router' {
       path: '/notifications'
       fullPath: '/notifications'
       preLoaderRoute: typeof NotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/how-it-works': {
+      id: '/how-it-works'
+      path: '/how-it-works'
+      fullPath: '/how-it-works'
+      preLoaderRoute: typeof HowItWorksRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/faq': {
@@ -478,6 +498,7 @@ const rootRouteChildren: RootRouteChildren = {
   BlogRoute: BlogRoute,
   EstimatorRoute: EstimatorRoute,
   FaqRoute: FaqRoute,
+  HowItWorksRoute: HowItWorksRoute,
   NotificationsRoute: NotificationsRoute,
   PortfolioRoute: PortfolioRoute,
   ProfileRoute: ProfileRoute,
@@ -491,3 +512,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
