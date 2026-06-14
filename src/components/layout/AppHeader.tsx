@@ -4,7 +4,10 @@ import logo from "@/assets/socilet-logo.png";
 
 export function AppHeader({ title, back, showBell = true }: { title?: string; back?: boolean; showBell?: boolean }) {
   return (
-    <header className="sticky top-0 z-40 flex items-center justify-between gap-3 border-b border-border bg-background/85 px-4 py-3 backdrop-blur-xl">
+    <header
+      className="sticky top-0 z-40 flex items-center justify-between gap-3 border-b border-border bg-background/85 px-4 backdrop-blur-xl"
+      style={{ paddingTop: "calc(env(safe-area-inset-top) + 0.75rem)", paddingBottom: "0.75rem" }}
+    >
       <div className="flex items-center gap-2">
         {back ? (
           <Link to="/" className="-ml-1 rounded-full p-2 hover:bg-secondary">

@@ -109,7 +109,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
-      <div className="relative mx-auto flex min-h-screen w-full max-w-[480px] flex-col bg-background pb-24">
+      <div className="relative mx-auto flex min-h-dvh w-full max-w-[480px] flex-col overflow-x-hidden bg-background pb-[calc(6rem+env(safe-area-inset-bottom))]">
         <Outlet />
         <BottomNav />
         <FloatingContact />
