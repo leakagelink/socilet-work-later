@@ -3,7 +3,7 @@ import { Home, Wrench, Briefcase, Gift, User } from "lucide-react";
 
 const normalItems = [
   { to: "/", label: "Home", icon: Home },
-  { to: "/estimator", label: "Estimate", icon: Calculator },
+  { to: "/tools", label: "Tools", icon: Wrench },
   { to: "/portfolio", label: "Portfolio", icon: Briefcase },
   { to: "/profile", label: "Profile", icon: User },
 ] as const;
