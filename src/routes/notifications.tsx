@@ -1,9 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { Card } from "@/components/ui/card";
-import { Bell, Sparkles, Briefcase, Tag } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Bell, Sparkles, Briefcase, Tag, BellRing } from "lucide-react";
+import { Capacitor } from "@capacitor/core";
+import { PushNotifications } from "@capacitor/push-notifications";
+import { supabase } from "@/integrations/supabase/client";
+import { registerPushNotifications } from "@/lib/push-notifications";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/notifications")({
+  ssr: false,
   head: () => ({
     meta: [
       { title: "Notifications | Socilet" },
@@ -21,10 +29,76 @@ const items = [
 ];
 
 function Notifications() {
+  const [isNative, setIsNative] = useState(false);
+  const [permission, setPermission] = useState<"prompt" | "granted" | "denied" | "unknown">("unknown");
+  const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    const native = Capacitor.isNativePlatform();
+    setIsNative(native);
+    if (!native) return;
+    PushNotifications.checkPermissions()
+      .then((s) => setPermission(s.receive as "prompt" | "granted" | "denied"))
+      .catch(() => setPermission("unknown"));
+  }, []);
+
+  const handleEnable = async () => {
+    setBusy(true);
+    try {
+      const { data } = await supabase.auth.getUser();
+      if (!data.user) {
+        toast.error("Please sign in first to enable notifications.");
+        setBusy(false);
+        return;
+      }
+      await registerPushNotifications(data.user.id);
+      const status = await PushNotifications.checkPermissions();
+      setPermission(status.receive as "prompt" | "granted" | "denied");
+      if (status.receive === "granted") toast.success("Notifications enabled");
+      else if (status.receive === "denied") toast.error("Permission denied. Enable from system Settings.");
+    } catch (e: any) {
+      toast.error(e?.message ?? "Could not enable notifications");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const showRationale = isNative && permission !== "granted";
+
   return (
     <>
       <AppHeader title="Notifications" back />
-      <main className="px-5 py-4 space-y-2">
+      <main className="px-5 py-4 space-y-3">
+        {showRationale && (
+          <Card className="border-primary/30 bg-gradient-card p-4">
+            <div className="flex items-start gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-primary text-primary-foreground">
+                <BellRing className="h-5 w-5" />
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-semibold">Stay updated on your projects</p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  We use notifications only to alert you about project updates, your
+                  estimate status, support replies, and limited-time offers. You can
+                  turn them off any time from your phone's Settings.
+                </p>
+                <Button
+                  size="sm"
+                  className="mt-3"
+                  onClick={handleEnable}
+                  disabled={busy || permission === "denied"}
+                >
+                  {permission === "denied"
+                    ? "Blocked — open Settings"
+                    : busy
+                      ? "Enabling…"
+                      : "Enable notifications"}
+                </Button>
+              </div>
+            </div>
+          </Card>
+        )}
+
         {items.map(({ icon: Icon, title, time, desc, tone }, i) => (
           <Card key={i} className="flex items-start gap-3 border-border bg-card p-4">
             <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${
