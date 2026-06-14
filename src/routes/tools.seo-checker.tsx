@@ -13,7 +13,7 @@ export const Route = createFileRoute("/tools/seo-checker")({
       { name: "description", content: "Check any website's SEO score instantly. Real data from Google PageSpeed Insights." },
     ],
   }),
-  component: SeoChecker;
+  component: SeoChecker,
 });
 
 type Audit = { id: string; title: string; score: number | null; displayValue?: string };
