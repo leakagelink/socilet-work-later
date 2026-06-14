@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
-import { Check, ChevronRight, Globe, ShoppingBag, Smartphone, Database, Cloud, Bot, Wrench, Sparkles } from "lucide-react";
+import { Check, ChevronRight, Globe, ShoppingBag, Smartphone, Database, Cloud, Bot, Wrench, Sparkles, Palette, FileCode, Link2, Layers } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
