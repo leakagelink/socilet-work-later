@@ -6,20 +6,20 @@ interface SplashScreenProps {
   minDisplayTime?: number;
 }
 
-export function SplashScreen({ onComplete, minDisplayTime = 2500 }: SplashScreenProps) {
+export function SplashScreen({ onComplete, minDisplayTime = 2200 }: SplashScreenProps) {
   const [phase, setPhase] = useState<"enter" | "hold" | "exit" | "done">("enter");
 
   useEffect(() => {
-    const enterTimer = setTimeout(() => setPhase("hold"), 800);
-    const holdTimer = setTimeout(() => setPhase("exit"), minDisplayTime);
+    const enterTimer = setTimeout(() => setPhase("hold"), 600);
+    const exitTimer = setTimeout(() => setPhase("exit"), minDisplayTime);
     const doneTimer = setTimeout(() => {
       setPhase("done");
       onComplete?.();
-    }, minDisplayTime + 600);
+    }, minDisplayTime + 500);
 
     return () => {
       clearTimeout(enterTimer);
-      clearTimeout(holdTimer);
+      clearTimeout(exitTimer);
       clearTimeout(doneTimer);
     };
   }, [minDisplayTime, onComplete]);
@@ -28,98 +28,54 @@ export function SplashScreen({ onComplete, minDisplayTime = 2500 }: SplashScreen
 
   return (
     <div
-      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center transition-opacity duration-500 ${
+      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-background transition-opacity duration-500 ${
         phase === "exit" ? "opacity-0" : "opacity-100"
       }`}
-      style={{
-        background: `
-          radial-gradient(ellipse 80% 50% at 50% -20%, rgba(120, 60, 220, 0.35), transparent),
-          radial-gradient(ellipse 60% 40% at 80% 80%, rgba(200, 60, 180, 0.18), transparent),
-          linear-gradient(160deg, #0f0a1a 0%, #1a0e2e 40%, #2d1b4e 100%)
-        `,
-      }}
     >
-      {/* Floating particles */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        {Array.from({ length: 20 }).map((_, i) => (
-          <div
-            key={i}
-            className="absolute rounded-full"
-            style={{
-              width: `${Math.random() * 3 + 1}px`,
-              height: `${Math.random() * 3 + 1}px`,
-              background: `rgba(180, 120, 255, ${Math.random() * 0.5 + 0.2})`,
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animation: `floatParticle ${Math.random() * 8 + 6}s ease-in-out infinite`,
-              animationDelay: `${Math.random() * 5}s`,
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Glow ring behind logo */}
+      {/* Logo */}
       <div
-        className={`relative mb-8 transition-all duration-1000 ${
-          phase === "enter" ? "scale-50 opacity-0" : "scale-100 opacity-100"
+        className={`relative transition-all duration-700 ${
+          phase === "enter" ? "scale-90 opacity-0" : "scale-100 opacity-100"
         }`}
       >
-        <div className="absolute inset-0 rounded-full bg-purple-500/20 blur-3xl" style={{ transform: "scale(1.8)" }} />
-        <div className="absolute inset-0 rounded-full bg-pink-500/10 blur-2xl" style={{ transform: "scale(1.4)" }} />
         <img
           src={logo}
           alt="Socilet"
-          className="relative h-28 w-28 object-contain drop-shadow-2xl sm:h-36 sm:w-36"
-          style={{
-            filter: "drop-shadow(0 0 30px rgba(168, 85, 247, 0.5))",
-          }}
+          className="h-20 w-20 object-contain sm:h-24 sm:w-24"
         />
       </div>
 
       {/* Brand name */}
       <h1
-        className={`font-display text-4xl font-bold tracking-tight text-white transition-all duration-700 delay-200 sm:text-5xl ${
-          phase === "enter" ? "translate-y-4 opacity-0" : "translate-y-0 opacity-100"
+        className={`mt-5 font-display text-2xl font-semibold tracking-tight text-foreground transition-all duration-700 delay-150 ${
+          phase === "enter" ? "translate-y-3 opacity-0" : "translate-y-0 opacity-100"
         }`}
       >
-        <span className="text-transparent" style={{ backgroundImage: "linear-gradient(135deg, #c084fc, #f472b6)", WebkitBackgroundClip: "text", backgroundClip: "text" }}>
-          Socilet
-        </span>
+        Socilet
       </h1>
 
       {/* Tagline */}
       <p
-        className={`mt-3 text-sm font-medium tracking-wide text-purple-200/70 transition-all duration-700 delay-500 sm:text-base ${
-          phase === "enter" ? "translate-y-3 opacity-0" : "translate-y-0 opacity-100"
+        className={`mt-1 text-sm text-muted-foreground transition-all duration-700 delay-300 ${
+          phase === "enter" ? "translate-y-2 opacity-0" : "translate-y-0 opacity-100"
         }`}
       >
         Work First · Pay Later
       </p>
 
-      {/* Animated progress bar */}
+      {/* Minimal progress bar */}
       <div
-        className={`mt-10 h-[2px] w-32 overflow-hidden rounded-full bg-white/10 transition-all duration-700 delay-700 sm:w-40 ${
+        className={`mt-8 h-[2px] w-24 overflow-hidden rounded-full bg-muted transition-all duration-700 delay-500 ${
           phase === "enter" ? "scale-x-0 opacity-0" : "scale-x-100 opacity-100"
         }`}
       >
         <div
-          className="h-full rounded-full"
+          className="h-full rounded-full bg-primary"
           style={{
-            background: "linear-gradient(90deg, #a855f7, #ec4899, #a855f7)",
-            backgroundSize: "200% 100%",
-            animation: "shimmer 2s linear infinite, loadProgress 2s ease-out forwards",
+            animation: "loadProgress 1.6s ease-out forwards",
           }}
         />
       </div>
-
-      {/* Bottom tag */}
-      <p
-        className={`absolute bottom-8 text-xs tracking-widest uppercase text-white/20 transition-all duration-700 delay-1000 ${
-          phase === "enter" ? "opacity-0" : "opacity-100"
-        }`}
-      >
-        Digital Excellence
-      </p>
     </div>
   );
 }
