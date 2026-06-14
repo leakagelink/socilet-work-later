@@ -1,14 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppHeader } from "@/components/layout/AppHeader";
-import { VideoTestimonials } from "@/components/VideoTestimonials";
-import { GoogleReviews } from "@/components/GoogleReviews";
+import { VideoTestimonials } from "@/components/video-testimonials";
+import { GoogleReviews } from "@/components/google-reviews";
 import { portfolioProjects, getPortfolioColor } from "@/lib/portfolio-data";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
   Globe, Smartphone, Sparkles, Search, Megaphone, Target,
   ArrowRight, ArrowUpRight, Shield, Clock, Wallet, Star, CheckCircle2, MessageCircle,
+  Zap, BarChart3, Calculator, FileText, ChevronRight, Wrench
 } from "lucide-react";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -158,35 +160,81 @@ function Home() {
           </div>
         </section>
 
-        {/* Free Tools banner */}
-        <section className="px-5 py-4">
-          <Link to="/tools" className="relative block">
-            <Card className="relative border-primary/30 bg-gradient-to-br from-primary/15 via-fuchsia-500/10 to-amber-500/10 py-5 pl-12 pr-5 transition hover:shadow-glow">
-              {/* Left side popup badge — protrudes from card */}
-              <div className="absolute -left-3 top-1/2 z-10 -translate-y-1/2">
-                <div className="relative flex flex-col items-center justify-center rounded-r-2xl rounded-l-lg bg-gradient-to-r from-primary via-fuchsia-500 to-fuchsia-600 px-3.5 py-4 shadow-[0_0_20px_rgba(192,38,211,0.5)] ring-[3px] ring-white/30">
-                  <span className="text-xs font-black uppercase tracking-wider text-white leading-none">Free</span>
-                  <span className="mt-1 text-[10px] font-bold text-white/90 leading-none">Tools</span>
-                  <span className="absolute -right-2 -top-2 flex h-4 w-4">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                    <span className="relative inline-flex h-4 w-4 rounded-full bg-emerald-400 ring-2 ring-white" />
-                  </span>
-                </div>
+        {/* Free Tools banner — modern glassmorphism */}
+        <section className="px-5 py-6">
+          <Card className="relative overflow-visible border-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-0 shadow-[0_0_40px_rgba(6,182,212,0.15)]">
+            {/* Animated glow orbs */}
+            <div className="pointer-events-none absolute -left-8 -top-8 h-32 w-32 rounded-full bg-cyan-500/20 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-8 -right-8 h-32 w-32 rounded-full bg-fuchsia-500/20 blur-3xl" />
+            <div className="pointer-events-none absolute left-1/2 top-1/2 h-24 w-24 -translate-x-1/2 -translate-y-1/2 rounded-full bg-amber-400/10 blur-2xl" />
+
+            {/* Left protruding badge */}
+            <div className="absolute -left-3 top-1/2 z-20 -translate-y-1/2 sm:-left-4">
+              <div className="relative flex flex-col items-center justify-center rounded-r-2xl rounded-l-xl bg-gradient-to-b from-cyan-400 via-fuchsia-500 to-amber-400 px-2.5 py-4 shadow-[0_0_25px_rgba(192,38,211,0.6)] ring-[3px] ring-white/20 sm:px-3.5 sm:py-5">
+                <Wrench className="h-3.5 w-3.5 text-white sm:h-4 sm:w-4" />
+                <span className="mt-1 text-[9px] font-black uppercase tracking-widest text-white leading-none [writing-mode:vertical-rl] sm:text-[10px]">
+                  Free Tools
+                </span>
+                {/* Live pulse dot */}
+                <span className="absolute -right-2 -top-2 flex h-3.5 w-3.5 sm:h-4 sm:w-4">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex h-full w-full rounded-full bg-emerald-400 ring-2 ring-white/50" />
+                </span>
+              </div>
+            </div>
+
+            <div className="relative pl-12 pr-5 pb-6 pt-5 sm:pl-16 sm:pr-6 sm:pb-8 sm:pt-6">
+              {/* Header */}
+              <div className="flex items-center gap-2">
+                <span className="inline-flex items-center gap-1 rounded-full bg-cyan-500/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-cyan-400 backdrop-blur-sm">
+                  <Sparkles className="h-3 w-3" /> 100% Free Forever
+                </span>
+                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/15 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-emerald-400">
+                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" /> No Sign-up
+                </span>
               </div>
 
-              <span className="inline-flex items-center gap-1 rounded-full bg-background/80 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary">
-                <Sparkles className="h-3 w-3" /> 100% Free
-              </span>
-              <h3 className="mt-2 font-display text-lg font-bold">Free Tools for Your Business</h3>
-              <p className="mt-1 text-xs text-muted-foreground">
-                SEO Checker · Speed Test · Quote Calculator · PDF Quotation Maker
+              <h3 className="mt-3 font-display text-xl font-bold text-white sm:text-2xl">
+                Free Tools for Your Business
+              </h3>
+              <p className="mt-1.5 max-w-md text-sm text-slate-400">
+                Powerful tools to check SEO, test speed, calculate quotes & generate PDFs — all free, no login needed.
               </p>
-              <div className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-primary">
-                Explore all tools <ArrowRight className="h-3 w-3" />
+
+              {/* Tool tiles */}
+              <div className="mt-5 grid grid-cols-2 gap-2.5 sm:grid-cols-4 sm:gap-3">
+                {[
+                  { icon: Search, label: "SEO Checker", color: "from-emerald-400 to-teal-500", ring: "ring-emerald-400/30", to: "/tools/seo-checker" },
+                  { icon: Zap, label: "Speed Test", color: "from-sky-400 to-cyan-500", ring: "ring-sky-400/30", to: "/tools/speed-test" },
+                  { icon: Calculator, label: "Quote Calc", color: "from-violet-400 to-fuchsia-500", ring: "ring-violet-400/30", to: "/tools/quote-calculator" },
+                  { icon: FileText, label: "PDF Quote", color: "from-amber-400 to-orange-500", ring: "ring-amber-400/30", to: "/tools/quotation-maker" },
+                ].map((tool) => (
+                  <Link key={tool.label} to={tool.to} className="group">
+                    <div className="flex flex-col items-center gap-2 rounded-xl border border-white/5 bg-white/5 p-3 transition-all duration-300 hover:-translate-y-0.5 hover:border-white/10 hover:bg-white/10 hover:shadow-lg sm:p-4">
+                      <div className={`flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${tool.color} shadow-lg ${tool.ring} ring-2 sm:h-11 sm:w-11`}>
+                        <tool.icon className="h-5 w-5 text-white sm:h-5.5 sm:w-5.5" />
+                      </div>
+                      <span className="text-center text-xs font-semibold text-white/90">{tool.label}</span>
+                    </div>
+                  </Link>
+                ))}
               </div>
-            </Card>
-          </Link>
+
+              {/* CTA row */}
+              <div className="mt-5 flex items-center justify-between">
+                <div className="flex items-center gap-1.5 text-xs text-slate-500">
+                  <span className="inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+                  <span>All tools working</span>
+                </div>
+                <Link to="/tools" className="group inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-cyan-500 via-fuchsia-500 to-amber-400 px-4 py-2 text-xs font-bold text-white shadow-lg transition hover:shadow-xl hover:brightness-110 sm:px-5">
+                  View All Tools
+                  <ChevronRight className="h-3.5 w-3.5 transition group-hover:translate-x-0.5" />
+                </Link>
+              </div>
+            </div>
+          </Card>
         </section>
+
 
         {/* Why Choose */}
         <section className="px-5 py-4">
