@@ -45,49 +45,50 @@ function Home() {
       <AppHeader />
       <main>
         {/* Hero */}
-        <section className="relative overflow-hidden bg-gradient-hero px-5 pb-12 pt-8 sm:px-8 sm:pt-12 md:pb-20 md:pt-16">
+        <section className="relative overflow-hidden bg-background px-5 pb-12 pt-8 sm:px-8 sm:pt-12 md:pb-20 md:pt-16">
           {/* Background image + gradient overlays */}
           <img
             src={heroBg}
             alt=""
             aria-hidden
-            className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-20"
+            className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-10"
+          />
+          <div aria-hidden className="pointer-events-none absolute inset-0 bg-background/85" />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-primary/15 blur-3xl"
           />
           <div
             aria-hidden
-            className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-primary/30 blur-3xl"
+            className="pointer-events-none absolute -bottom-32 -left-20 h-80 w-80 rounded-full bg-accent/10 blur-3xl"
           />
           <div
             aria-hidden
-            className="pointer-events-none absolute -bottom-32 -left-20 h-80 w-80 rounded-full bg-accent/25 blur-3xl"
-          />
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,transparent_40%,hsl(var(--background))_95%)]"
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,transparent_45%,var(--background)_95%)]"
           />
 
           <div className="relative mx-auto max-w-6xl">
             <div className="grid items-center gap-10 md:grid-cols-2 md:gap-12">
               {/* Copy column */}
               <div className="animate-fade-in">
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-primary-glow backdrop-blur-sm">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/35 bg-primary/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-primary backdrop-blur-sm">
                   <Sparkles className="h-3.5 w-3.5" /> Work First · Pay Later
                 </span>
 
-                <h1 className="mt-5 font-display text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl">
+                <h1 className="mt-5 font-display text-4xl font-bold leading-[1.05] tracking-tight text-foreground sm:text-5xl md:text-6xl">
                   Brand your dream <br className="hidden sm:block" />
-                  with <span className="text-gradient">Socilet</span>
+                  with <span className="text-primary">Socilet</span>
                 </h1>
 
-                <p className="mt-4 max-w-lg text-base leading-relaxed text-muted-foreground sm:text-lg">
+                <p className="mt-4 max-w-lg text-base leading-relaxed text-foreground/75 sm:text-lg">
                   Websites, apps, AI & growth — shipped by a senior team. Start today, pay only after we deliver.
                 </p>
 
                 {/* Trust strip */}
-                <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-muted-foreground">
-                  <span className="inline-flex items-center gap-1.5"><Shield className="h-3.5 w-3.5 text-primary-glow" /> Zero upfront</span>
-                  <span className="inline-flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-primary-glow" /> Milestone-based</span>
-                  <span className="inline-flex items-center gap-1.5"><Star className="h-3.5 w-3.5 fill-current text-primary-glow" /> 4.9 / 5 rated</span>
+                <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-medium text-foreground/70">
+                  <span className="inline-flex items-center gap-1.5"><Shield className="h-3.5 w-3.5 text-primary" /> Zero upfront</span>
+                  <span className="inline-flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-primary" /> Milestone-based</span>
+                  <span className="inline-flex items-center gap-1.5"><Star className="h-3.5 w-3.5 fill-current text-primary" /> 4.9 / 5 rated</span>
                 </div>
 
                 <div className="mt-7 flex flex-col gap-2.5 sm:flex-row">
