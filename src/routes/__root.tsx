@@ -15,6 +15,7 @@ import { BottomNav } from "@/components/layout/BottomNav";
 import { FloatingContact } from "@/components/layout/FloatingContact";
 import { FreeToolsSidebar } from "@/components/layout/FreeToolsSidebar";
 import { Link } from "@tanstack/react-router";
+import { PushNotificationManager } from "@/components/PushNotificationManager";
 
 function NotFoundComponent() {
   return (
@@ -103,6 +104,7 @@ function RootComponent() {
         <FloatingContact />
         <FreeToolsSidebar />
         <Toaster position="top-center" />
+        <PushNotificationManager />
       </div>
     </QueryClientProvider>
   );
