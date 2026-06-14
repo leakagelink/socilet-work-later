@@ -189,7 +189,7 @@ function Estimator() {
       <AppHeader title="AI Project Estimator" back />
       <main className="px-5 py-5">
         <Progress value={progress} className="mb-1 h-1.5" />
-        <p className="mb-5 text-xs text-muted-foreground">Step {step} of {totalSteps}</p>
+        <p className="mb-5 text-xs text-muted-foreground">Step {displayStep} of {totalSteps}</p>
 
         {step === 1 && (
           <section>
