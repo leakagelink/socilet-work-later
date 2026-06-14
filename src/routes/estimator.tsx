@@ -48,6 +48,31 @@ const timelines = [
   { id: "flexible", label: "Flexible", mult: 0.9 },
 ];
 
+const designOptions = [
+  { id: "ready", label: "I have designs ready", desc: "Figma / mockups done", mult: 0.9 },
+  { id: "partial", label: "Partial / wireframes", desc: "Some sketches", mult: 1 },
+  { id: "need", label: "Need UI/UX design too", desc: "Start from scratch", mult: 1.25 },
+];
+
+const techOptions = [
+  { id: "no-preference", label: "No preference" },
+  { id: "react-next", label: "React / Next.js" },
+  { id: "wordpress", label: "WordPress" },
+  { id: "flutter", label: "Flutter" },
+  { id: "react-native", label: "React Native" },
+  { id: "shopify", label: "Shopify" },
+  { id: "other", label: "Other" },
+];
+
+const referralSources = [
+  { id: "google", label: "Google Search" },
+  { id: "instagram", label: "Instagram" },
+  { id: "referral", label: "Friend / Referral" },
+  { id: "linkedin", label: "LinkedIn" },
+  { id: "youtube", label: "YouTube" },
+  { id: "other", label: "Other" },
+];
+
 function Estimator() {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
@@ -56,15 +81,23 @@ function Estimator() {
   const [timeline, setTimeline] = useState<string>("");
   const [contact, setContact] = useState({ name: "", email: "", phone: "", notes: "" });
   const [userBudget, setUserBudget] = useState<string>("");
+  const [designStatus, setDesignStatus] = useState<string>("");
+  const [pagesCount, setPagesCount] = useState<string>("");
+  const [techPref, setTechPref] = useState<string>("");
+  const [referenceLinks, setReferenceLinks] = useState<string>("");
+  const [referralSource, setReferralSource] = useState<string>("");
   const [submitting, setSubmitting] = useState(false);
 
-  const totalSteps = 4;
+  const totalSteps = 5;
   const progress = (step / totalSteps) * 100;
 
   const base = projectTypes.find((p) => p.id === projectType)?.base ?? 0;
   const featuresCost = features.reduce((s, id) => s + (featuresList.find((f) => f.id === id)?.cost ?? 0), 0);
   const mult = timelines.find((t) => t.id === timeline)?.mult ?? 1;
-  const min = Math.round((base + featuresCost) * mult);
+  const designMult = designOptions.find((d) => d.id === designStatus)?.mult ?? 1;
+  const pagesNum = pagesCount ? Math.min(Number(pagesCount), 200) : 0;
+  const pagesCost = pagesNum > 5 ? (pagesNum - 5) * 80 : 0;
+  const min = Math.round(((base + featuresCost + pagesCost) * mult) * designMult);
   const max = Math.round(min * 1.5);
 
   const toggleFeature = (id: string) =>
@@ -88,6 +121,11 @@ function Estimator() {
       email: contact.email,
       phone: contact.phone || null,
       notes: contact.notes || null,
+      design_status: designStatus || null,
+      pages_count: pagesNum || null,
+      tech_preference: techPref || null,
+      reference_links: referenceLinks || null,
+      referral_source: referralSource || null,
     });
     setSubmitting(false);
     if (error) return toast.error("Could not save estimate. Try again.");
