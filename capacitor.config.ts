@@ -3,7 +3,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 const config: CapacitorConfig = {
   appId: 'com.socilet.app',
   appName: 'Socilet',
-  webDir: 'dist',
+  webDir: 'dist/client',
   server: {
     // For live-reload during development, uncomment and set your dev URL:
     // url: 'https://<your-preview-url>.lovable.app',
