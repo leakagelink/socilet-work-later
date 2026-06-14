@@ -218,6 +218,8 @@ function Home() {
             ))}
           </div>
         </section>
+        {/* Video Testimonials */}
+        <VideoTestimonials />
 
         {/* Testimonials */}
         <section className="px-5 py-4">
