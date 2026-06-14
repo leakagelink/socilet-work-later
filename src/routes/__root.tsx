@@ -6,7 +6,7 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -16,6 +16,7 @@ import { FloatingContact } from "@/components/layout/FloatingContact";
 import { FreeToolsSidebar } from "@/components/layout/FreeToolsSidebar";
 import { Link } from "@tanstack/react-router";
 import { PushNotificationManager } from "@/components/PushNotificationManager";
+import { SplashScreen } from "@/components/SplashScreen";
 
 function NotFoundComponent() {
   return (
@@ -101,8 +102,11 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const [showSplash, setShowSplash] = useState(true);
+
   return (
     <QueryClientProvider client={queryClient}>
+      {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
       <div className="relative mx-auto flex min-h-screen w-full max-w-[480px] flex-col bg-background pb-24">
         <Outlet />
         <BottomNav />
