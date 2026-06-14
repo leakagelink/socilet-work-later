@@ -344,9 +344,19 @@ function Estimator() {
 
             <Card className="bg-gradient-card mt-6 border-primary/30 p-5">
               <p className="text-xs uppercase tracking-wider text-muted-foreground">Estimated range</p>
+              {referralApplied && (
+                <p className="mt-1 text-sm text-muted-foreground line-through">
+                  ${rawMin.toLocaleString()} – ${rawMax.toLocaleString()}
+                </p>
+              )}
               <p className="mt-1 font-display text-3xl font-bold text-gradient">
                 ${min.toLocaleString()} – ${max.toLocaleString()}
               </p>
+              {referralApplied && (
+                <p className="mt-1 inline-flex items-center gap-1 rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] font-semibold text-emerald-500">
+                  <Tag className="h-3 w-3" /> 10% referral discount applied
+                </p>
+              )}
               <p className="mt-1 text-[11px] text-muted-foreground">
                 Indicative only. Final scope confirmed after a short discovery call.
               </p>
