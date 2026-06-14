@@ -14,10 +14,18 @@ function Splash() {
   }, [navigate]);
 
   return (
-    <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-gradient-hero">
-      <img src={logo} alt="Socilet" width={120} height={120} className="animate-float drop-shadow-[0_20px_60px_rgba(79,70,229,0.5)]" />
-      <h1 className="mt-6 font-display text-3xl font-bold text-gradient">Socilet</h1>
-      <p className="mt-2 text-sm text-muted-foreground">Brand Your Dream</p>
+    <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background">
+      <img
+        src={logo}
+        alt="Socilet"
+        width={96}
+        height={96}
+        className="h-24 w-24 object-contain"
+      />
+      <h1 className="mt-5 font-display text-2xl font-semibold tracking-tight text-foreground">
+        Socilet
+      </h1>
+      <p className="mt-1 text-sm text-muted-foreground">Work First · Pay Later</p>
     </div>
   );
 }
