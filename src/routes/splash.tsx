@@ -22,9 +22,6 @@ function Splash() {
         height={96}
         className="h-24 w-24 object-contain"
       />
-      <h1 className="mt-5 font-display text-2xl font-semibold tracking-tight text-foreground">
-        Socilet
-      </h1>
       <p className="mt-1 text-sm text-muted-foreground">Work First · Pay Later</p>
     </div>
   );
