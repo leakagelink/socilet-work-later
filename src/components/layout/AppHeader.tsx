@@ -11,11 +11,13 @@ export function AppHeader({ title, back, showBell = true }: { title?: string; ba
             <ArrowLeft className="h-5 w-5" />
           </Link>
         ) : (
-          <img src={logo} alt="Socilet" width={28} height={28} className="rounded-lg" />
+          <img src={logo} alt="Socilet" width={40} height={40} className="rounded-lg" />
         )}
-        <span className="font-display text-base font-semibold tracking-tight">
-          {title ?? "Socilet"}
-        </span>
+        {title && (
+          <span className="font-display text-base font-semibold tracking-tight">
+            {title}
+          </span>
+        )}
       </div>
       {showBell && (
         <Link to="/notifications" className="rounded-full p-2 hover:bg-secondary">
