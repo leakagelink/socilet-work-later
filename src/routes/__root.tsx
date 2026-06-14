@@ -102,8 +102,11 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const [showSplash, setShowSplash] = useState(true);
+
   return (
     <QueryClientProvider client={queryClient}>
+      {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
       <div className="relative mx-auto flex min-h-screen w-full max-w-[480px] flex-col bg-background pb-24">
         <Outlet />
         <BottomNav />
