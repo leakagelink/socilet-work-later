@@ -20,6 +20,7 @@ export type Database = {
           budget_min: number | null
           created_at: string
           design_status: string | null
+          discount_amount: number | null
           email: string
           features: Json
           id: string
@@ -29,6 +30,7 @@ export type Database = {
           phone: string | null
           project_type: string
           reference_links: string | null
+          referral_code: string | null
           referral_source: string | null
           tech_preference: string | null
           timeline: string | null
@@ -39,6 +41,7 @@ export type Database = {
           budget_min?: number | null
           created_at?: string
           design_status?: string | null
+          discount_amount?: number | null
           email: string
           features?: Json
           id?: string
@@ -48,6 +51,7 @@ export type Database = {
           phone?: string | null
           project_type: string
           reference_links?: string | null
+          referral_code?: string | null
           referral_source?: string | null
           tech_preference?: string | null
           timeline?: string | null
@@ -58,6 +62,7 @@ export type Database = {
           budget_min?: number | null
           created_at?: string
           design_status?: string | null
+          discount_amount?: number | null
           email?: string
           features?: Json
           id?: string
@@ -67,6 +72,7 @@ export type Database = {
           phone?: string | null
           project_type?: string
           reference_links?: string | null
+          referral_code?: string | null
           referral_source?: string | null
           tech_preference?: string | null
           timeline?: string | null

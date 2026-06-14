@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
-import { Check, ChevronRight, Globe, ShoppingBag, Smartphone, Database, Cloud, Bot, Wrench, Sparkles, Palette, FileCode, Link2, Layers } from "lucide-react";
+import { Check, ChevronRight, Globe, ShoppingBag, Smartphone, Database, Cloud, Bot, Wrench, Sparkles, Palette, FileCode, Link2, Layers, Tag } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -86,7 +86,26 @@ function Estimator() {
   const [techPref, setTechPref] = useState<string>("");
   const [referenceLinks, setReferenceLinks] = useState<string>("");
   const [referralSource, setReferralSource] = useState<string>("");
+  const [referralCode, setReferralCode] = useState<string>("");
+  const [referralApplied, setReferralApplied] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+
+  // Auto-capture ?ref= from URL or previously saved code
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const fromUrl = params.get("ref");
+      const stored = localStorage.getItem("socilet:refUsed");
+      const code = (fromUrl || stored || "").trim().toUpperCase();
+      const myCode = (localStorage.getItem("socilet:refCode") || "").toUpperCase();
+      // Don't let users apply their own code
+      if (code && code !== myCode) {
+        setReferralCode(code);
+        setReferralApplied(true);
+        if (fromUrl) localStorage.setItem("socilet:refUsed", code);
+      }
+    } catch {}
+  }, []);
 
   const totalSteps = 5;
   const progress = (step / totalSteps) * 100;
@@ -97,8 +116,12 @@ function Estimator() {
   const designMult = designOptions.find((d) => d.id === designStatus)?.mult ?? 1;
   const pagesNum = pagesCount ? Math.min(Number(pagesCount), 200) : 0;
   const pagesCost = pagesNum > 5 ? (pagesNum - 5) * 80 : 0;
-  const min = Math.round(((base + featuresCost + pagesCost) * mult) * designMult);
-  const max = Math.round(min * 1.5);
+  const rawMin = Math.round(((base + featuresCost + pagesCost) * mult) * designMult);
+  const rawMax = Math.round(rawMin * 1.5);
+  const discountPct = referralApplied ? 0.1 : 0;
+  const min = Math.round(rawMin * (1 - discountPct));
+  const max = Math.round(rawMax * (1 - discountPct));
+  const discountAmount = rawMin - min;
 
   const toggleFeature = (id: string) =>
     setFeatures((f) => (f.includes(id) ? f.filter((x) => x !== id) : [...f, id]));
@@ -110,6 +133,7 @@ function Estimator() {
     }
     setSubmitting(true);
     const budgetNum = userBudget ? Number(userBudget.replace(/[^0-9.]/g, "")) : null;
+    const finalCode = referralApplied ? referralCode.trim().toUpperCase() : null;
     const { error } = await supabase.from("estimates").insert({
       project_type: projectType,
       features,
@@ -126,14 +150,26 @@ function Estimator() {
       tech_preference: techPref || null,
       reference_links: referenceLinks || null,
       referral_source: referralSource || null,
+      referral_code: finalCode,
+      discount_amount: finalCode ? discountAmount : null,
     });
+    if (!error && finalCode) {
+      // Track referral conversion (referrer gets 10% commission)
+      await supabase.from("referrals").insert({
+        code: finalCode,
+        referred_email: contact.email,
+        status: "converted",
+      });
+    }
     setSubmitting(false);
     if (error) return toast.error("Could not save estimate. Try again.");
     try { localStorage.setItem("socilet:lastEstimate", JSON.stringify({ projectType, features, timeline, min, max, userBudget: budgetNum, at: Date.now() })); } catch {}
     toast.success(
-      budgetNum
-        ? "Budget received! Our team will confirm on email & WhatsApp shortly."
-        : "Estimate saved! We'll be in touch."
+      finalCode
+        ? "10% referral discount applied! Our team will be in touch shortly."
+        : budgetNum
+          ? "Budget received! Our team will confirm on email & WhatsApp shortly."
+          : "Estimate saved! We'll be in touch."
     );
     navigate({ to: "/profile" });
   };
@@ -308,9 +344,19 @@ function Estimator() {
 
             <Card className="bg-gradient-card mt-6 border-primary/30 p-5">
               <p className="text-xs uppercase tracking-wider text-muted-foreground">Estimated range</p>
+              {referralApplied && (
+                <p className="mt-1 text-sm text-muted-foreground line-through">
+                  ${rawMin.toLocaleString()} – ${rawMax.toLocaleString()}
+                </p>
+              )}
               <p className="mt-1 font-display text-3xl font-bold text-gradient">
                 ${min.toLocaleString()} – ${max.toLocaleString()}
               </p>
+              {referralApplied && (
+                <p className="mt-1 inline-flex items-center gap-1 rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] font-semibold text-emerald-500">
+                  <Tag className="h-3 w-3" /> 10% referral discount applied
+                </p>
+              )}
               <p className="mt-1 text-[11px] text-muted-foreground">
                 Indicative only. Final scope confirmed after a short discovery call.
               </p>
@@ -347,8 +393,60 @@ function Estimator() {
                 </div>
               </div>
             </div>
+            <Card className="mt-4 border-emerald-500/30 bg-emerald-500/5 p-4">
+              <Label className="flex items-center gap-1.5 text-sm font-semibold">
+                <Tag className="h-4 w-4 text-emerald-500" /> Referral code (optional)
+              </Label>
+              <p className="mt-0.5 text-[11px] text-muted-foreground">
+                Got a code from a friend? Get 10% off your project.
+              </p>
+              <div className="mt-2 flex gap-2">
+                <Input
+                  value={referralCode}
+                  onChange={(e) => { setReferralCode(e.target.value.toUpperCase()); setReferralApplied(false); }}
+                  placeholder="e.g. SOCABC12"
+                  className="uppercase"
+                  disabled={referralApplied}
+                />
+                {referralApplied ? (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => { setReferralApplied(false); setReferralCode(""); try { localStorage.removeItem("socilet:refUsed"); } catch {} }}
+                  >
+                    Remove
+                  </Button>
+                ) : (
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      const c = referralCode.trim().toUpperCase();
+                      const myCode = (localStorage.getItem("socilet:refCode") || "").toUpperCase();
+                      if (!c) return toast.error("Enter a referral code");
+                      if (c === myCode) return toast.error("You can't use your own referral code");
+                      if (!/^SOC[A-Z0-9]{4,}$/.test(c)) return toast.error("Invalid code format");
+                      setReferralApplied(true);
+                      try { localStorage.setItem("socilet:refUsed", c); } catch {}
+                      toast.success("10% discount applied!");
+                    }}
+                  >
+                    Apply
+                  </Button>
+                )}
+              </div>
+              {referralApplied && (
+                <p className="mt-2 text-[11px] font-medium text-emerald-500">
+                  ✓ 10% off applied — you save ${discountAmount.toLocaleString()}
+                </p>
+              )}
+            </Card>
             <Card className="bg-gradient-card mt-4 border-border p-4">
               <p className="text-xs text-muted-foreground">Your estimate</p>
+              {referralApplied && (
+                <p className="text-xs text-muted-foreground line-through">
+                  ${rawMin.toLocaleString()} – ${rawMax.toLocaleString()}
+                </p>
+              )}
               <p className="font-display text-lg font-semibold text-gradient">
                 ${min.toLocaleString()} – ${max.toLocaleString()}
               </p>

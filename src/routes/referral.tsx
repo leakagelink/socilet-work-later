@@ -30,8 +30,8 @@ function Referral() {
   const [code, setCode] = useState("SOCILET");
   useEffect(() => setCode(getOrCreateCode()), []);
 
-  const shareUrl = typeof window !== "undefined" ? `${window.location.origin}/?ref=${code}` : "";
-  const message = `Hey! I've been working with Socilet for digital services (web, app, AI, ads). Their Work First, Pay Later model is great. Use my code ${code}: ${shareUrl}`;
+  const shareUrl = typeof window !== "undefined" ? `${window.location.origin}/estimator?ref=${code}` : "";
+  const message = `Hey! Get 10% off your next project with Socilet (web, app, AI, ads). Use my code ${code} — I'll also earn 10% as a thank-you. Start here: ${shareUrl}`;
 
   const copy = async () => {
     try { await navigator.clipboard.writeText(code); toast.success("Code copied!"); } catch { toast.error("Copy failed"); }
@@ -54,7 +54,9 @@ function Referral() {
           <Gift className="absolute right-4 top-4 h-5 w-5 opacity-60" />
           <p className="text-xs uppercase tracking-widest opacity-80">Your unique code</p>
           <p className="mt-2 font-display text-3xl font-bold tracking-widest">{code}</p>
-          <p className="mt-2 text-xs opacity-80">Share with businesses. Earn service credits when they start a project.</p>
+          <p className="mt-2 text-xs opacity-90">
+            <span className="font-semibold">You earn 10%</span> commission · <span className="font-semibold">They get 10% off</span> their project
+          </p>
           <div className="mt-4 grid grid-cols-2 gap-2">
             <Button onClick={copy} variant="secondary" className="bg-white/15 text-primary-foreground hover:bg-white/25">
               <Copy className="mr-1 h-4 w-4" /> Copy
@@ -90,8 +92,8 @@ function Referral() {
           <ol className="space-y-3">
             {[
               "Share your code with any business owner.",
-              "They start a project using your code.",
-              "You receive service credits once their project kicks off.",
+              "They start a project using your code and get 10% off instantly.",
+              "Once their project kicks off, you earn 10% as service credit.",
             ].map((s, i) => (
               <li key={i} className="flex gap-3">
                 <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/15 text-sm font-semibold text-primary-glow">{i + 1}</span>
@@ -100,7 +102,7 @@ function Referral() {
             ))}
           </ol>
           <p className="mt-4 text-[10px] text-muted-foreground">
-            Rewards are service credits applied to future Socilet projects. Not cash. Terms apply.
+            Your 10% reward is issued as service credit on future Socilet projects. Discount applies once per new client. Terms apply.
           </p>
         </section>
       </main>
