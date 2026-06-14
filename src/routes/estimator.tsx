@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
-import { Check, ChevronRight, Globe, ShoppingBag, Smartphone, Database, Cloud, Bot, Wrench, Sparkles } from "lucide-react";
+import { Check, ChevronRight, Globe, ShoppingBag, Smartphone, Database, Cloud, Bot, Wrench, Sparkles, Palette, FileCode, Link2, Layers } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -48,6 +48,31 @@ const timelines = [
   { id: "flexible", label: "Flexible", mult: 0.9 },
 ];
 
+const designOptions = [
+  { id: "ready", label: "I have designs ready", desc: "Figma / mockups done", mult: 0.9 },
+  { id: "partial", label: "Partial / wireframes", desc: "Some sketches", mult: 1 },
+  { id: "need", label: "Need UI/UX design too", desc: "Start from scratch", mult: 1.25 },
+];
+
+const techOptions = [
+  { id: "no-preference", label: "No preference" },
+  { id: "react-next", label: "React / Next.js" },
+  { id: "wordpress", label: "WordPress" },
+  { id: "flutter", label: "Flutter" },
+  { id: "react-native", label: "React Native" },
+  { id: "shopify", label: "Shopify" },
+  { id: "other", label: "Other" },
+];
+
+const referralSources = [
+  { id: "google", label: "Google Search" },
+  { id: "instagram", label: "Instagram" },
+  { id: "referral", label: "Friend / Referral" },
+  { id: "linkedin", label: "LinkedIn" },
+  { id: "youtube", label: "YouTube" },
+  { id: "other", label: "Other" },
+];
+
 function Estimator() {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
@@ -56,15 +81,23 @@ function Estimator() {
   const [timeline, setTimeline] = useState<string>("");
   const [contact, setContact] = useState({ name: "", email: "", phone: "", notes: "" });
   const [userBudget, setUserBudget] = useState<string>("");
+  const [designStatus, setDesignStatus] = useState<string>("");
+  const [pagesCount, setPagesCount] = useState<string>("");
+  const [techPref, setTechPref] = useState<string>("");
+  const [referenceLinks, setReferenceLinks] = useState<string>("");
+  const [referralSource, setReferralSource] = useState<string>("");
   const [submitting, setSubmitting] = useState(false);
 
-  const totalSteps = 4;
+  const totalSteps = 5;
   const progress = (step / totalSteps) * 100;
 
   const base = projectTypes.find((p) => p.id === projectType)?.base ?? 0;
   const featuresCost = features.reduce((s, id) => s + (featuresList.find((f) => f.id === id)?.cost ?? 0), 0);
   const mult = timelines.find((t) => t.id === timeline)?.mult ?? 1;
-  const min = Math.round((base + featuresCost) * mult);
+  const designMult = designOptions.find((d) => d.id === designStatus)?.mult ?? 1;
+  const pagesNum = pagesCount ? Math.min(Number(pagesCount), 200) : 0;
+  const pagesCost = pagesNum > 5 ? (pagesNum - 5) * 80 : 0;
+  const min = Math.round(((base + featuresCost + pagesCost) * mult) * designMult);
   const max = Math.round(min * 1.5);
 
   const toggleFeature = (id: string) =>
@@ -88,6 +121,11 @@ function Estimator() {
       email: contact.email,
       phone: contact.phone || null,
       notes: contact.notes || null,
+      design_status: designStatus || null,
+      pages_count: pagesNum || null,
+      tech_preference: techPref || null,
+      reference_links: referenceLinks || null,
+      referral_source: referralSource || null,
     });
     setSubmitting(false);
     if (error) return toast.error("Could not save estimate. Try again.");
@@ -161,6 +199,93 @@ function Estimator() {
 
         {step === 3 && (
           <section>
+            <h2 className="font-display text-xl font-semibold">Scope & tech</h2>
+            <p className="mb-4 text-sm text-muted-foreground">Helps us estimate more accurately.</p>
+
+            <div className="mb-5">
+              <Label className="mb-2 flex items-center gap-1.5 text-sm font-semibold">
+                <Palette className="h-4 w-4 text-primary-glow" /> Design status
+              </Label>
+              <div className="space-y-2">
+                {designOptions.map((d) => {
+                  const active = designStatus === d.id;
+                  return (
+                    <button
+                      key={d.id}
+                      onClick={() => setDesignStatus(d.id)}
+                      className={`flex w-full items-center justify-between rounded-xl border p-3 text-left transition ${
+                        active ? "border-primary bg-primary/10" : "border-border bg-card"
+                      }`}
+                    >
+                      <div>
+                        <p className="text-sm font-medium">{d.label}</p>
+                        <p className="text-[11px] text-muted-foreground">{d.desc}</p>
+                      </div>
+                      <span className={`flex h-5 w-5 items-center justify-center rounded-full border ${
+                        active ? "border-primary bg-primary text-primary-foreground" : "border-border"
+                      }`}>
+                        {active && <Check className="h-3 w-3" />}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="mb-5">
+              <Label className="mb-2 flex items-center gap-1.5 text-sm font-semibold">
+                <Layers className="h-4 w-4 text-primary-glow" /> Approx. pages / screens
+              </Label>
+              <Input
+                type="number"
+                inputMode="numeric"
+                min={1}
+                max={200}
+                value={pagesCount}
+                onChange={(e) => setPagesCount(e.target.value.replace(/[^0-9]/g, ""))}
+                placeholder="e.g. 8"
+              />
+              <p className="mt-1 text-[11px] text-muted-foreground">Rough number is fine.</p>
+            </div>
+
+            <div className="mb-5">
+              <Label className="mb-2 flex items-center gap-1.5 text-sm font-semibold">
+                <FileCode className="h-4 w-4 text-primary-glow" /> Tech preference
+              </Label>
+              <div className="flex flex-wrap gap-2">
+                {techOptions.map((t) => {
+                  const active = techPref === t.id;
+                  return (
+                    <button
+                      key={t.id}
+                      onClick={() => setTechPref(t.id)}
+                      className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
+                        active ? "border-primary bg-primary/15 text-primary-glow" : "border-border bg-card text-muted-foreground"
+                      }`}
+                    >
+                      {t.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div>
+              <Label className="mb-2 flex items-center gap-1.5 text-sm font-semibold">
+                <Link2 className="h-4 w-4 text-primary-glow" /> Reference websites / apps (optional)
+              </Label>
+              <Textarea
+                value={referenceLinks}
+                onChange={(e) => setReferenceLinks(e.target.value)}
+                placeholder="Paste 1-3 links you like the look or feel of…"
+                rows={3}
+              />
+            </div>
+          </section>
+        )}
+
+        {step === 4 && (
+          <section>
             <h2 className="font-display text-xl font-semibold">Timeline</h2>
             <p className="mb-4 text-sm text-muted-foreground">When do you need this live?</p>
             <div className="space-y-2">
@@ -193,7 +318,7 @@ function Estimator() {
           </section>
         )}
 
-        {step === 4 && (
+        {step === 5 && (
           <section>
             <h2 className="font-display text-xl font-semibold">Your details</h2>
             <p className="mb-4 text-sm text-muted-foreground">We'll send your estimate & a free consult.</p>
@@ -202,6 +327,25 @@ function Estimator() {
               <div><Label>Email</Label><Input type="email" value={contact.email} onChange={(e) => setContact({ ...contact, email: e.target.value })} placeholder="jane@company.com" /></div>
               <div><Label>Phone (optional)</Label><Input value={contact.phone} onChange={(e) => setContact({ ...contact, phone: e.target.value })} placeholder="+1 555 000 1234" /></div>
               <div><Label>Notes (optional)</Label><Textarea value={contact.notes} onChange={(e) => setContact({ ...contact, notes: e.target.value })} placeholder="Tell us a bit more about your project..." /></div>
+              <div>
+                <Label>How did you find us? (optional)</Label>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {referralSources.map((r) => {
+                    const active = referralSource === r.id;
+                    return (
+                      <button
+                        key={r.id}
+                        onClick={() => setReferralSource(r.id)}
+                        className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
+                          active ? "border-primary bg-primary/15 text-primary-glow" : "border-border bg-card text-muted-foreground"
+                        }`}
+                      >
+                        {r.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
             <Card className="bg-gradient-card mt-4 border-border p-4">
               <p className="text-xs text-muted-foreground">Your estimate</p>
@@ -248,7 +392,7 @@ function Estimator() {
           {step < totalSteps ? (
             <Button
               className="flex-1 bg-gradient-primary shadow-glow"
-              disabled={(step === 1 && !projectType) || (step === 3 && !timeline)}
+              disabled={(step === 1 && !projectType) || (step === 4 && !timeline)}
               onClick={() => setStep(step + 1)}
             >
               Continue
