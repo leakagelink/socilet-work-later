@@ -12,6 +12,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Toaster } from "@/components/ui/sonner";
 import { BottomNav } from "@/components/layout/BottomNav";
+import { FloatingContact } from "@/components/layout/FloatingContact";
 import { Link } from "@tanstack/react-router";
 
 function NotFoundComponent() {
@@ -98,6 +99,7 @@ function RootComponent() {
       <div className="relative mx-auto flex min-h-screen w-full max-w-[480px] flex-col bg-background pb-24">
         <Outlet />
         <BottomNav />
+        <FloatingContact />
         <Toaster position="top-center" />
       </div>
     </QueryClientProvider>
