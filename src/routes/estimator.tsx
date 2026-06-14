@@ -115,6 +115,9 @@ function Estimator() {
   const base = proj?.base ?? 0;
   const maxBase = proj?.max ?? base;
   const featuresCost = features.reduce((s, id) => s + (featuresList.find((f) => f.id === id)?.cost ?? 0), 0);
+  const mult = timelines.find((t) => t.id === timeline)?.mult ?? 1;
+  const designMult = designOptions.find((d) => d.id === designStatus)?.mult ?? 1;
+  const pagesNum = pagesCount ? Math.min(Number(pagesCount), 200) : 0;
   const pagesCost = pagesNum > 5 ? (pagesNum - 5) * 80 : 0;
   const rawMin = Math.round(((base + featuresCost + pagesCost) * mult) * designMult);
   const rawMax = Math.round(((maxBase + featuresCost + pagesCost) * mult) * designMult);
