@@ -21,7 +21,7 @@ function VideoCard({ v }: { v: Testimonial }) {
   const thumb = `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`;
 
   return (
-    <Card className="min-w-[260px] snap-start overflow-hidden border-border bg-card">
+    <Card className="overflow-hidden border-border bg-card">
       <div className="relative aspect-video bg-muted">
         {playing ? (
           <iframe
