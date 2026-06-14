@@ -162,7 +162,21 @@ function Home() {
         <section className="px-5 py-4">
           <Link to="/tools">
             <Card className="relative overflow-hidden border-primary/30 bg-gradient-to-br from-primary/15 via-fuchsia-500/10 to-amber-500/10 p-5 transition hover:shadow-glow">
-              <span className="inline-flex items-center gap-1 rounded-full bg-background/80 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary">
+              {/* Left side popup badge */}
+              <div className="absolute -left-2 top-1/2 -translate-y-1/2">
+                <div className="relative flex items-center justify-center rounded-r-xl bg-gradient-to-r from-primary to-fuchsia-500 px-3 py-2 shadow-glow">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-white">Free</span>
+                  {/* Pulse dot */}
+                  <span className="absolute -right-1 -top-1 flex h-3 w-3">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex h-3 w-3 rounded-full bg-emerald-400" />
+                  </span>
+                </div>
+                {/* Arrow pointer */}
+                <div className="absolute right-0 top-1/2 h-2 w-2 -translate-y-1/2 translate-x-1/2 rotate-45 bg-fuchsia-500" />
+              </div>
+
+              <span className="ml-6 inline-flex items-center gap-1 rounded-full bg-background/80 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary">
                 <Sparkles className="h-3 w-3" /> 100% Free
               </span>
               <h3 className="mt-2 font-display text-lg font-bold">Free Tools for Your Business</h3>
