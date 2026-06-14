@@ -494,14 +494,14 @@ function Estimator() {
         )}
 
         <div className="mt-8 flex gap-2">
-          {step > 1 && (
-            <Button variant="outline" className="flex-1 bg-transparent" onClick={() => setStep(step - 1)}>Back</Button>
+          {currentIdx > 0 && (
+            <Button variant="outline" className="flex-1 bg-transparent" onClick={goBack}>Back</Button>
           )}
-          {step < totalSteps ? (
+          {!isLastStep ? (
             <Button
               className="flex-1 bg-gradient-primary shadow-glow"
               disabled={(step === 1 && !projectType) || (step === 4 && !timeline)}
-              onClick={() => setStep(step + 1)}
+              onClick={goNext}
             >
               Continue
             </Button>
