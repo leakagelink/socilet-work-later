@@ -54,7 +54,9 @@ function Referral() {
           <Gift className="absolute right-4 top-4 h-5 w-5 opacity-60" />
           <p className="text-xs uppercase tracking-widest opacity-80">Your unique code</p>
           <p className="mt-2 font-display text-3xl font-bold tracking-widest">{code}</p>
-          <p className="mt-2 text-xs opacity-80">Share with businesses. Earn service credits when they start a project.</p>
+          <p className="mt-2 text-xs opacity-90">
+            <span className="font-semibold">You earn 10%</span> commission · <span className="font-semibold">They get 10% off</span> their project
+          </p>
           <div className="mt-4 grid grid-cols-2 gap-2">
             <Button onClick={copy} variant="secondary" className="bg-white/15 text-primary-foreground hover:bg-white/25">
               <Copy className="mr-1 h-4 w-4" /> Copy
