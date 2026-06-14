@@ -1,10 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ArrowLeft, Gauge, Loader2, Smartphone, Monitor } from "lucide-react";
+import { runPageSpeedFn } from "@/lib/pagespeed.functions";
+
 
 export const Route = createFileRoute("/tools/speed-test")({
   head: () => ({
@@ -30,14 +33,10 @@ function normalizeUrl(input: string) {
   return u;
 }
 
-async function runSpeed(url: string, strategy: "mobile" | "desktop"): Promise<Result> {
-  const api = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&category=performance&strategy=${strategy}`;
-  const res = await fetch(api);
-  if (!res.ok) throw new Error("Failed to fetch speed data");
-  const data = await res.json();
+function parseSpeed(url: string, strategy: "mobile" | "desktop", data: any): Result {
   const audits = data.lighthouseResult.audits;
   const perf = data.lighthouseResult.categories.performance;
-  const ids = [
+  const ids: Array<[string, string]> = [
     ["first-contentful-paint", "FCP"],
     ["largest-contentful-paint", "LCP"],
     ["total-blocking-time", "TBT"],
@@ -50,8 +49,9 @@ async function runSpeed(url: string, strategy: "mobile" | "desktop"): Promise<Re
     value: audits[id]?.displayValue ?? "—",
     score: audits[id]?.score ?? null,
   }));
-  return { url, strategy, perfScore: Math.round((perf.score ?? 0) * 100), metrics };
+  return { url, strategy, perfScore: Math.round((perf?.score ?? 0) * 100), metrics };
 }
+
 
 function color(score: number) {
   if (score >= 90) return { ring: "#10b981", text: "text-emerald-500", grade: "Fast" };
