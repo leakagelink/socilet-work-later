@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppHeader } from "@/components/layout/AppHeader";
-import { VideoTestimonials } from "@/components/video-testimonials";
-import { GoogleReviews } from "@/components/google-reviews";
+import { VideoTestimonials } from "@/components/VideoTestimonials";
+import { GoogleReviews } from "@/components/GoogleReviews";
 import { portfolioProjects, getPortfolioColor } from "@/lib/portfolio-data";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
