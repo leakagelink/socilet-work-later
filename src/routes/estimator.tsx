@@ -133,6 +133,7 @@ function Estimator() {
     }
     setSubmitting(true);
     const budgetNum = userBudget ? Number(userBudget.replace(/[^0-9.]/g, "")) : null;
+    const finalCode = referralApplied ? referralCode.trim().toUpperCase() : null;
     const { error } = await supabase.from("estimates").insert({
       project_type: projectType,
       features,
@@ -149,14 +150,26 @@ function Estimator() {
       tech_preference: techPref || null,
       reference_links: referenceLinks || null,
       referral_source: referralSource || null,
+      referral_code: finalCode,
+      discount_amount: finalCode ? discountAmount : null,
     });
+    if (!error && finalCode) {
+      // Track referral conversion (referrer gets 10% commission)
+      await supabase.from("referrals").insert({
+        code: finalCode,
+        referred_email: contact.email,
+        status: "converted",
+      });
+    }
     setSubmitting(false);
     if (error) return toast.error("Could not save estimate. Try again.");
     try { localStorage.setItem("socilet:lastEstimate", JSON.stringify({ projectType, features, timeline, min, max, userBudget: budgetNum, at: Date.now() })); } catch {}
     toast.success(
-      budgetNum
-        ? "Budget received! Our team will confirm on email & WhatsApp shortly."
-        : "Estimate saved! We'll be in touch."
+      finalCode
+        ? "10% referral discount applied! Our team will be in touch shortly."
+        : budgetNum
+          ? "Budget received! Our team will confirm on email & WhatsApp shortly."
+          : "Estimate saved! We'll be in touch."
     );
     navigate({ to: "/profile" });
   };
