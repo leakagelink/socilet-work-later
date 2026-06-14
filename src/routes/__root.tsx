@@ -6,7 +6,7 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -16,6 +16,7 @@ import { FloatingContact } from "@/components/layout/FloatingContact";
 import { FreeToolsSidebar } from "@/components/layout/FreeToolsSidebar";
 import { Link } from "@tanstack/react-router";
 import { PushNotificationManager } from "@/components/PushNotificationManager";
+import { SplashScreen } from "@/components/SplashScreen";
 
 function NotFoundComponent() {
   return (
