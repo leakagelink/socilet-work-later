@@ -57,7 +57,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
-      { name: "theme-color", content: "#0a0a1a" },
+      { name: "theme-color", content: "#ffffff" },
       { title: "Socilet — Work First, Pay Later | Web, App & AI Development" },
       { name: "description", content: "Socilet builds websites, mobile apps, AI solutions, SEO, social media & Google Ads. Start your project today — work first, pay later." },
       { name: "author", content: "Socilet" },
