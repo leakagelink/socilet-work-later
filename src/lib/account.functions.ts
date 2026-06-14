@@ -12,12 +12,11 @@ export const deleteMyAccount = createServerFn({ method: "POST" })
 
     // Best-effort cleanup of user-owned rows (RLS-scoped to this user).
     // auth.users CASCADE will also clean rows with FK references.
+    // Best-effort cleanup of user-owned rows. Other tables (estimates, leads,
+    // support_tickets, referrals) are keyed by email — they remain as business
+    // records and are anonymised when the auth user is removed.
     await Promise.allSettled([
-      supabase.from("estimates").delete().eq("user_id", userId),
-      supabase.from("leads").delete().eq("user_id", userId),
       supabase.from("notifications").delete().eq("user_id", userId),
-      supabase.from("referrals").delete().eq("referrer_id", userId),
-      supabase.from("support_tickets").delete().eq("user_id", userId),
       supabase.from("user_push_tokens").delete().eq("user_id", userId),
       supabase.from("user_roles").delete().eq("user_id", userId),
       supabase.from("profiles").delete().eq("id", userId),
