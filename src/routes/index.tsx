@@ -261,21 +261,8 @@ function Home() {
         {/* Video Testimonials */}
         <VideoTestimonials />
 
-        {/* Testimonials */}
-        <section className="px-5 py-4">
-          <h2 className="mb-4 font-display text-xl font-semibold">Clients love us</h2>
-          <div className="space-y-3">
-            {testimonials.map((t) => (
-              <Card key={t.name} className="bg-gradient-card border-border p-4">
-                <div className="mb-2 flex gap-0.5 text-primary-glow">
-                  {[0,1,2,3,4].map(i => <Star key={i} className="h-3.5 w-3.5 fill-current" />)}
-                </div>
-                <p className="text-sm">{t.quote}</p>
-                <p className="mt-2 text-xs text-muted-foreground">{t.name} · {t.role}</p>
-              </Card>
-            ))}
-          </div>
-        </section>
+        {/* Google Reviews */}
+        <GoogleReviews />
 
         {/* CTA */}
         <section className="px-5 py-8">
