@@ -11,8 +11,7 @@ const items = [
 
 export function BottomNav() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const isSplash = pathname === "/splash";
-  if (isSplash) return null;
+  if (pathname === "/splash" || pathname === "/auth") return null;
 
   return (
     <nav className="fixed bottom-0 left-1/2 z-50 w-full max-w-[480px] -translate-x-1/2 border-t border-border bg-background/85 backdrop-blur-xl">
