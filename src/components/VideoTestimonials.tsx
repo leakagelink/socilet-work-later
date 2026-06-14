@@ -21,7 +21,7 @@ function VideoCard({ v }: { v: Testimonial }) {
   const thumb = `https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`;
 
   return (
-    <Card className="min-w-[260px] snap-start overflow-hidden border-border bg-card">
+    <Card className="overflow-hidden border-border bg-card">
       <div className="relative aspect-video bg-muted">
         {playing ? (
           <iframe
@@ -82,7 +82,7 @@ export function VideoTestimonials() {
           Hear it from our clients
         </h2>
       </div>
-      <div className="-mx-5 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {VIDEOS.map((v) => (
           <VideoCard key={v.id} v={v} />
         ))}
@@ -90,3 +90,4 @@ export function VideoTestimonials() {
     </section>
   );
 }
+
