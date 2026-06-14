@@ -99,6 +99,7 @@ function RootComponent() {
       <div className="relative mx-auto flex min-h-screen w-full max-w-[480px] flex-col bg-background pb-24">
         <Outlet />
         <BottomNav />
+        <FloatingContact />
         <Toaster position="top-center" />
       </div>
     </QueryClientProvider>
