@@ -6,16 +6,16 @@ interface SplashScreenProps {
   minDisplayTime?: number;
 }
 
-export function SplashScreen({ onComplete, minDisplayTime = 2200 }: SplashScreenProps) {
+export function SplashScreen({ onComplete, minDisplayTime = 700 }: SplashScreenProps) {
   const [phase, setPhase] = useState<"enter" | "hold" | "exit" | "done">("enter");
 
   useEffect(() => {
-    const enterTimer = setTimeout(() => setPhase("hold"), 600);
+    const enterTimer = setTimeout(() => setPhase("hold"), 150);
     const exitTimer = setTimeout(() => setPhase("exit"), minDisplayTime);
     const doneTimer = setTimeout(() => {
       setPhase("done");
       onComplete?.();
-    }, minDisplayTime + 500);
+    }, minDisplayTime + 200);
 
     return () => {
       clearTimeout(enterTimer);

@@ -13,9 +13,7 @@
     <script>
       // Capacitor will use server.url from capacitor.config.ts and load the live site.
       // This file is only a fallback when offline / before WebView takes over.
-      setTimeout(function () {
-        try { window.location.replace('https://socilet-work-later.lovable.app'); } catch (e) {}
-      }, 1500);
+      try { window.location.replace('https://socilet-work-later.lovable.app'); } catch (e) {}
     </script>
   </head>
   <body>
