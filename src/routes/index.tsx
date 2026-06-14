@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppHeader } from "@/components/layout/AppHeader";
+import { VideoTestimonials } from "@/components/VideoTestimonials";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -217,6 +218,8 @@ function Home() {
             ))}
           </div>
         </section>
+        {/* Video Testimonials */}
+        <VideoTestimonials />
 
         {/* Testimonials */}
         <section className="px-5 py-4">
