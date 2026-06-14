@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
   Globe, Smartphone, Sparkles, Search, Megaphone, Target,
-  ArrowRight, Shield, Clock, Wallet, Star, CheckCircle2, MessageCircle,
+  ArrowRight, ArrowUpRight, Shield, Clock, Wallet, Star, CheckCircle2, MessageCircle,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
