@@ -86,7 +86,26 @@ function Estimator() {
   const [techPref, setTechPref] = useState<string>("");
   const [referenceLinks, setReferenceLinks] = useState<string>("");
   const [referralSource, setReferralSource] = useState<string>("");
+  const [referralCode, setReferralCode] = useState<string>("");
+  const [referralApplied, setReferralApplied] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+
+  // Auto-capture ?ref= from URL or previously saved code
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const fromUrl = params.get("ref");
+      const stored = localStorage.getItem("socilet:refUsed");
+      const code = (fromUrl || stored || "").trim().toUpperCase();
+      const myCode = (localStorage.getItem("socilet:refCode") || "").toUpperCase();
+      // Don't let users apply their own code
+      if (code && code !== myCode) {
+        setReferralCode(code);
+        setReferralApplied(true);
+        if (fromUrl) localStorage.setItem("socilet:refUsed", code);
+      }
+    } catch {}
+  }, []);
 
   const totalSteps = 5;
   const progress = (step / totalSteps) * 100;
@@ -97,8 +116,12 @@ function Estimator() {
   const designMult = designOptions.find((d) => d.id === designStatus)?.mult ?? 1;
   const pagesNum = pagesCount ? Math.min(Number(pagesCount), 200) : 0;
   const pagesCost = pagesNum > 5 ? (pagesNum - 5) * 80 : 0;
-  const min = Math.round(((base + featuresCost + pagesCost) * mult) * designMult);
-  const max = Math.round(min * 1.5);
+  const rawMin = Math.round(((base + featuresCost + pagesCost) * mult) * designMult);
+  const rawMax = Math.round(rawMin * 1.5);
+  const discountPct = referralApplied ? 0.1 : 0;
+  const min = Math.round(rawMin * (1 - discountPct));
+  const max = Math.round(rawMax * (1 - discountPct));
+  const discountAmount = rawMin - min;
 
   const toggleFeature = (id: string) =>
     setFeatures((f) => (f.includes(id) ? f.filter((x) => x !== id) : [...f, id]));
