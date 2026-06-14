@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
   Globe, Smartphone, Sparkles, Search, Megaphone, Target,
-  ArrowRight, Shield, Clock, Wallet, Star, CheckCircle2, MessageCircle,
+  ArrowRight, ArrowUpRight, Shield, Clock, Wallet, Star, CheckCircle2, MessageCircle,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -198,19 +198,59 @@ function Home() {
         </section>
 
         {/* Featured Portfolio */}
-        <section className="px-5 py-4">
+        <section className="px-5 py-6">
           <div className="mb-4 flex items-end justify-between">
-            <h2 className="font-display text-xl font-semibold">Featured work</h2>
-            <Link to="/portfolio" className="text-xs text-primary-glow">All projects →</Link>
+            <div>
+              <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-primary-glow">
+                Featured work
+              </span>
+              <h2 className="mt-1 font-display text-xl font-semibold sm:text-2xl">
+                Recent projects we shipped
+              </h2>
+            </div>
+            <Link
+              to="/portfolio"
+              className="group inline-flex items-center gap-1 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground/80 transition hover:border-primary/40 hover:text-primary-glow"
+            >
+              All <ArrowUpRight className="h-3 w-3 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </Link>
           </div>
-          <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 -mx-5 px-5">
+
+          <div className="-mx-5 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-3 scrollbar-hide sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible sm:px-0 sm:mx-0 lg:grid-cols-4">
             {portfolioProjects.slice(0, 8).map((p, i) => (
-              <a key={p.id} href={p.url} target="_blank" rel="noopener noreferrer" className="min-w-[220px] snap-start">
-                <Card className="h-full overflow-hidden border-border bg-card transition hover:border-primary/30">
-                  <div className={`aspect-[4/3] bg-gradient-to-br ${getPortfolioColor(i)}`} />
-                  <div className="p-3">
-                    <p className="text-sm font-semibold">{p.title}</p>
-                    <p className="text-xs text-muted-foreground">{p.tag}</p>
+              <a
+                key={p.id}
+                href={p.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative min-w-[78%] snap-start sm:min-w-0"
+              >
+                <Card className="relative h-full overflow-hidden border-border/60 bg-card p-0 transition duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-glow">
+                  {/* Cover */}
+                  <div className={`relative aspect-[4/3] overflow-hidden bg-gradient-to-br ${getPortfolioColor(i)}`}>
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.25),transparent_60%)]" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="font-display text-3xl font-bold text-white/90 drop-shadow-sm">
+                        {p.title.charAt(0)}
+                      </span>
+                    </div>
+                    <span className="absolute left-2 top-2 rounded-full bg-black/40 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-white/90 backdrop-blur-sm">
+                      {p.cat}
+                    </span>
+                    <span className="absolute right-2 top-2 inline-flex h-7 w-7 items-center justify-center rounded-full bg-white/15 text-white opacity-0 backdrop-blur-md transition group-hover:opacity-100">
+                      <ArrowUpRight className="h-3.5 w-3.5" />
+                    </span>
+                  </div>
+                  {/* Content */}
+                  <div className="space-y-1.5 p-3">
+                    <p className="truncate text-sm font-semibold transition group-hover:text-primary-glow">
+                      {p.title}
+                    </p>
+                    <p className="line-clamp-1 text-xs text-muted-foreground">{p.tag}</p>
+                    <div className="flex items-center gap-1.5 pt-1 text-[10px] font-medium text-emerald-400">
+                      <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
+                      {p.result}
+                    </div>
                   </div>
                 </Card>
               </a>
