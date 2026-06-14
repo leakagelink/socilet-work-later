@@ -42,7 +42,7 @@ function Terms() {
             <li>You are responsible for activity under your account.</li>
           </ul>
 
-          <h2 className="font-django text-lg font-semibold">3. Project scope & delivery</h2>
+          <h2 className="font-display text-lg font-semibold">3. Project scope & delivery</h2>
           <p>
             Each project's scope, timeline and price are confirmed in writing before work
             starts. Estimates shown in-app are indicative and not a binding quote.
