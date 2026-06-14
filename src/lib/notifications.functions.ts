@@ -195,4 +195,4 @@ async function getFcmAccessToken(sa: {
   }
   const tokenData = (await tokenRes.json()) as { access_token: string };
   return tokenData.access_token;
-});
+}
