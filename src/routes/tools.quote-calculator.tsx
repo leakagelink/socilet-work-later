@@ -16,21 +16,21 @@ export const Route = createFileRoute("/tools/quote-calculator")({
 });
 
 const projectTypes = [
-  { id: "landing", label: "Landing Page", base: 400 },
-  { id: "website", label: "Business Website", base: 900 },
-  { id: "ecommerce", label: "E-commerce Store", base: 1800 },
-  { id: "webapp", label: "Web Application", base: 3500 },
-  { id: "mobile", label: "Mobile App", base: 4000 },
-  { id: "saas", label: "SaaS Product", base: 6000 },
+  { id: "landing", label: "Landing Page", base: 50 },
+  { id: "website", label: "Business Website", base: 100, max: 1500 },
+  { id: "ecommerce", label: "E-commerce Store", base: 200, max: 2500 },
+  { id: "webapp", label: "Web Application", base: 50, max: 5000 },
+  { id: "mobile", label: "Mobile App", base: 10000 },
+  { id: "saas", label: "SaaS Product", base: 10000 },
 ];
 
 const features = [
-  { id: "design", label: "Custom UI/UX Design", cost: 600 },
-  { id: "cms", label: "CMS / Admin Panel", cost: 700 },
-  { id: "auth", label: "User Authentication", cost: 300 },
-  { id: "payments", label: "Payment Integration", cost: 500 },
-  { id: "ai", label: "AI Features", cost: 900 },
-  { id: "seo", label: "SEO Optimization", cost: 350 },
+  { id: "design", label: "Custom UI/UX Design", cost: 0 },
+  { id: "cms", label: "CMS / Admin Panel", cost: 0 },
+  { id: "auth", label: "User Authentication", cost: 0 },
+  { id: "payments", label: "Payment Integration", cost: 0 },
+  { id: "ai", label: "AI Features", cost: 0 },
+  { id: "seo", label: "SEO Optimization", cost: 0 },
 ];
 
 // Industry multipliers based on real market data
@@ -79,7 +79,9 @@ function QuoteCalculator() {
                 className={`rounded-xl border px-3 py-2.5 text-left text-xs font-medium transition ${type === p.id ? "border-primary bg-primary/10 text-primary" : "border-border text-foreground"}`}
               >
                 {p.label}
-                <span className="block text-[10px] text-muted-foreground">from ${p.base}</span>
+                <span className="block text-[10px] text-muted-foreground">
+                  {p.max ? `$${p.base} - $${p.max.toLocaleString()}` : `from $${p.base}`}
+                </span>
               </button>
             ))}
           </div>
@@ -102,7 +104,6 @@ function QuoteCalculator() {
                     </span>
                     {f.label}
                   </span>
-                  <span className="text-muted-foreground">+${f.cost}</span>
                 </button>
               );
             })}
