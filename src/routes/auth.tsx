@@ -136,10 +136,14 @@ function AuthPage() {
         </button>
       </Card>
 
-      <p className="mt-6 text-center text-[10px] leading-relaxed text-muted-foreground">
-        By continuing you agree to Socilet's Terms of Service & Privacy Policy.
-        We position Socilet as a professional digital services provider — no income or
-        approval guarantees are made.
+      <p className="mt-6 text-center text-[11px] leading-relaxed text-muted-foreground">
+        By signing in, you agree to our{" "}
+        <Link to="/terms" className="underline hover:text-foreground">Terms of Service</Link>{" "}
+        and{" "}
+        <Link to="/privacy-policy" className="underline hover:text-foreground">Privacy Policy</Link>.
+      </p>
+      <p className="mt-2 text-center text-[10px] leading-relaxed text-muted-foreground/70">
+        Socilet is a professional digital services provider — no income or approval guarantees are made.
       </p>
     </main>
   );
