@@ -199,6 +199,93 @@ function Estimator() {
 
         {step === 3 && (
           <section>
+            <h2 className="font-display text-xl font-semibold">Scope & tech</h2>
+            <p className="mb-4 text-sm text-muted-foreground">Helps us estimate more accurately.</p>
+
+            <div className="mb-5">
+              <Label className="mb-2 flex items-center gap-1.5 text-sm font-semibold">
+                <Palette className="h-4 w-4 text-primary-glow" /> Design status
+              </Label>
+              <div className="space-y-2">
+                {designOptions.map((d) => {
+                  const active = designStatus === d.id;
+                  return (
+                    <button
+                      key={d.id}
+                      onClick={() => setDesignStatus(d.id)}
+                      className={`flex w-full items-center justify-between rounded-xl border p-3 text-left transition ${
+                        active ? "border-primary bg-primary/10" : "border-border bg-card"
+                      }`}
+                    >
+                      <div>
+                        <p className="text-sm font-medium">{d.label}</p>
+                        <p className="text-[11px] text-muted-foreground">{d.desc}</p>
+                      </div>
+                      <span className={`flex h-5 w-5 items-center justify-center rounded-full border ${
+                        active ? "border-primary bg-primary text-primary-foreground" : "border-border"
+                      }`}>
+                        {active && <Check className="h-3 w-3" />}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="mb-5">
+              <Label className="mb-2 flex items-center gap-1.5 text-sm font-semibold">
+                <Layers className="h-4 w-4 text-primary-glow" /> Approx. pages / screens
+              </Label>
+              <Input
+                type="number"
+                inputMode="numeric"
+                min={1}
+                max={200}
+                value={pagesCount}
+                onChange={(e) => setPagesCount(e.target.value.replace(/[^0-9]/g, ""))}
+                placeholder="e.g. 8"
+              />
+              <p className="mt-1 text-[11px] text-muted-foreground">Rough number is fine.</p>
+            </div>
+
+            <div className="mb-5">
+              <Label className="mb-2 flex items-center gap-1.5 text-sm font-semibold">
+                <FileCode className="h-4 w-4 text-primary-glow" /> Tech preference
+              </Label>
+              <div className="flex flex-wrap gap-2">
+                {techOptions.map((t) => {
+                  const active = techPref === t.id;
+                  return (
+                    <button
+                      key={t.id}
+                      onClick={() => setTechPref(t.id)}
+                      className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
+                        active ? "border-primary bg-primary/15 text-primary-glow" : "border-border bg-card text-muted-foreground"
+                      }`}
+                    >
+                      {t.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div>
+              <Label className="mb-2 flex items-center gap-1.5 text-sm font-semibold">
+                <Link2 className="h-4 w-4 text-primary-glow" /> Reference websites / apps (optional)
+              </Label>
+              <Textarea
+                value={referenceLinks}
+                onChange={(e) => setReferenceLinks(e.target.value)}
+                placeholder="Paste 1-3 links you like the look or feel of…"
+                rows={3}
+              />
+            </div>
+          </section>
+        )}
+
+        {step === 4 && (
+          <section>
             <h2 className="font-display text-xl font-semibold">Timeline</h2>
             <p className="mb-4 text-sm text-muted-foreground">When do you need this live?</p>
             <div className="space-y-2">
@@ -231,7 +318,7 @@ function Estimator() {
           </section>
         )}
 
-        {step === 4 && (
+        {step === 5 && (
           <section>
             <h2 className="font-display text-xl font-semibold">Your details</h2>
             <p className="mb-4 text-sm text-muted-foreground">We'll send your estimate & a free consult.</p>
@@ -240,6 +327,25 @@ function Estimator() {
               <div><Label>Email</Label><Input type="email" value={contact.email} onChange={(e) => setContact({ ...contact, email: e.target.value })} placeholder="jane@company.com" /></div>
               <div><Label>Phone (optional)</Label><Input value={contact.phone} onChange={(e) => setContact({ ...contact, phone: e.target.value })} placeholder="+1 555 000 1234" /></div>
               <div><Label>Notes (optional)</Label><Textarea value={contact.notes} onChange={(e) => setContact({ ...contact, notes: e.target.value })} placeholder="Tell us a bit more about your project..." /></div>
+              <div>
+                <Label>How did you find us? (optional)</Label>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {referralSources.map((r) => {
+                    const active = referralSource === r.id;
+                    return (
+                      <button
+                        key={r.id}
+                        onClick={() => setReferralSource(r.id)}
+                        className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
+                          active ? "border-primary bg-primary/15 text-primary-glow" : "border-border bg-card text-muted-foreground"
+                        }`}
+                      >
+                        {r.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
             </div>
             <Card className="bg-gradient-card mt-4 border-border p-4">
               <p className="text-xs text-muted-foreground">Your estimate</p>
