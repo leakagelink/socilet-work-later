@@ -160,23 +160,20 @@ function Home() {
 
         {/* Free Tools banner */}
         <section className="px-5 py-4">
-          <Link to="/tools" className="relative block overflow-visible">
-            {/* Left side popup badge */}
-            <div className="absolute -left-5 top-1/2 z-50 -translate-y-1/2">
-              <div className="relative flex flex-col items-center justify-center rounded-r-xl bg-gradient-to-r from-primary via-fuchsia-500 to-fuchsia-600 px-3.5 py-3 shadow-glow ring-2 ring-white/20">
-                <span className="text-[11px] font-black uppercase tracking-wider text-white leading-none">Free</span>
-                <span className="mt-0.5 text-[9px] font-bold text-white/80 leading-none">Tools</span>
-                {/* Pulse dot */}
-                <span className="absolute -right-1.5 -top-1.5 flex h-3 w-3">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex h-3 w-3 rounded-full bg-emerald-400 ring-2 ring-white" />
-                </span>
+          <Link to="/tools" className="relative block">
+            <Card className="relative border-primary/30 bg-gradient-to-br from-primary/15 via-fuchsia-500/10 to-amber-500/10 py-5 pl-12 pr-5 transition hover:shadow-glow">
+              {/* Left side popup badge inside card */}
+              <div className="absolute left-0 top-1/2 z-10 -translate-y-1/2">
+                <div className="relative flex flex-col items-center justify-center rounded-r-xl bg-gradient-to-r from-primary via-fuchsia-500 to-fuchsia-600 px-3 py-3 shadow-glow ring-2 ring-white/20">
+                  <span className="text-[11px] font-black uppercase tracking-wider text-white leading-none">Free</span>
+                  <span className="mt-0.5 text-[9px] font-bold text-white/80 leading-none">Tools</span>
+                  <span className="absolute -right-1.5 -top-1.5 flex h-3 w-3">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex h-3 w-3 rounded-full bg-emerald-400 ring-2 ring-white" />
+                  </span>
+                </div>
               </div>
-              {/* Triangle pointer */}
-              <div className="absolute right-0 top-1/2 h-2 w-2 -translate-y-1/2 translate-x-[1px] rotate-45 bg-fuchsia-600" />
-            </div>
 
-            <Card className="relative overflow-hidden border-primary/30 bg-gradient-to-br from-primary/15 via-fuchsia-500/10 to-amber-500/10 py-5 pl-12 pr-5 transition hover:shadow-glow">
               <span className="inline-flex items-center gap-1 rounded-full bg-background/80 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary">
                 <Sparkles className="h-3 w-3" /> 100% Free
               </span>
