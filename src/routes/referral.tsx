@@ -30,8 +30,8 @@ function Referral() {
   const [code, setCode] = useState("SOCILET");
   useEffect(() => setCode(getOrCreateCode()), []);
 
-  const shareUrl = typeof window !== "undefined" ? `${window.location.origin}/?ref=${code}` : "";
-  const message = `Hey! I've been working with Socilet for digital services (web, app, AI, ads). Their Work First, Pay Later model is great. Use my code ${code}: ${shareUrl}`;
+  const shareUrl = typeof window !== "undefined" ? `${window.location.origin}/estimator?ref=${code}` : "";
+  const message = `Hey! Get 10% off your next project with Socilet (web, app, AI, ads). Use my code ${code} — I'll also earn 10% as a thank-you. Start here: ${shareUrl}`;
 
   const copy = async () => {
     try { await navigator.clipboard.writeText(code); toast.success("Code copied!"); } catch { toast.error("Copy failed"); }
