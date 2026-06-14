@@ -162,9 +162,9 @@ function Home() {
         <section className="px-5 py-4">
           <Link to="/tools" className="relative block">
             <Card className="relative border-primary/30 bg-gradient-to-br from-primary/15 via-fuchsia-500/10 to-amber-500/10 py-5 pl-12 pr-5 transition hover:shadow-glow">
-              {/* Left side popup badge inside card */}
-              <div className="absolute left-0 top-1/2 z-10 -translate-y-1/2">
-                <div className="relative flex flex-col items-center justify-center rounded-r-xl bg-gradient-to-r from-primary via-fuchsia-500 to-fuchsia-600 px-3 py-3 shadow-glow ring-2 ring-white/20">
+              {/* Left side popup badge — protrudes from card */}
+              <div className="absolute -left-2 top-1/2 z-10 -translate-y-1/2">
+                <div className="relative flex flex-col items-center justify-center rounded-r-xl rounded-l-md bg-gradient-to-r from-primary via-fuchsia-500 to-fuchsia-600 px-3 py-3 shadow-glow ring-2 ring-white/20">
                   <span className="text-[11px] font-black uppercase tracking-wider text-white leading-none">Free</span>
                   <span className="mt-0.5 text-[9px] font-bold text-white/80 leading-none">Tools</span>
                   <span className="absolute -right-1.5 -top-1.5 flex h-3 w-3">
