@@ -65,18 +65,24 @@ function SpeedTest() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<Result | null>(null);
   const [error, setError] = useState("");
+  const runPageSpeed = useServerFn(runPageSpeedFn);
 
   const run = async () => {
     if (!url.trim()) return;
     setLoading(true); setError(""); setResult(null);
     try {
-      setResult(await runSpeed(normalizeUrl(url), strategy));
+      const normalized = normalizeUrl(url);
+      const data = await runPageSpeed({
+        data: { url: normalized, strategy, categories: ["performance"] },
+      });
+      setResult(parseSpeed(normalized, strategy, data));
     } catch (e: any) {
       setError(e.message || "Something went wrong.");
     } finally {
       setLoading(false);
     }
   };
+
 
   const c = result ? color(result.perfScore) : null;
   const circ = 2 * Math.PI * 44;
