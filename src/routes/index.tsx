@@ -160,8 +160,20 @@ function Home() {
 
         {/* Free Tools banner */}
         <section className="px-5 py-4">
-          <Link to="/tools">
-            <Card className="relative overflow-hidden border-primary/30 bg-gradient-to-br from-primary/15 via-fuchsia-500/10 to-amber-500/10 p-5 transition hover:shadow-glow">
+          <Link to="/tools" className="relative block">
+            <Card className="relative border-primary/30 bg-gradient-to-br from-primary/15 via-fuchsia-500/10 to-amber-500/10 py-5 pl-12 pr-5 transition hover:shadow-glow">
+              {/* Left side popup badge — protrudes from card */}
+              <div className="absolute -left-3 top-1/2 z-10 -translate-y-1/2">
+                <div className="relative flex flex-col items-center justify-center rounded-r-2xl rounded-l-lg bg-gradient-to-r from-primary via-fuchsia-500 to-fuchsia-600 px-3.5 py-4 shadow-[0_0_20px_rgba(192,38,211,0.5)] ring-[3px] ring-white/30">
+                  <span className="text-xs font-black uppercase tracking-wider text-white leading-none">Free</span>
+                  <span className="mt-1 text-[10px] font-bold text-white/90 leading-none">Tools</span>
+                  <span className="absolute -right-2 -top-2 flex h-4 w-4">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex h-4 w-4 rounded-full bg-emerald-400 ring-2 ring-white" />
+                  </span>
+                </div>
+              </div>
+
               <span className="inline-flex items-center gap-1 rounded-full bg-background/80 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary">
                 <Sparkles className="h-3 w-3" /> 100% Free
               </span>
