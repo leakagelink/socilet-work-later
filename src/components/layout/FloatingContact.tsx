@@ -8,7 +8,7 @@ export function FloatingContact() {
   const email = "hello@socilet.in";
 
   return (
-    <div className="fixed bottom-[4.5rem] right-4 z-50 flex flex-col items-end gap-2">
+    <div className="fixed bottom-[6.5rem] right-4 z-50 flex flex-col items-end gap-2">
       {/* Contact options */}
       {open && (
         <div className="flex flex-col items-end gap-2 animate-in slide-in-from-bottom-2 fade-in duration-200">
