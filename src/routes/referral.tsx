@@ -92,8 +92,8 @@ function Referral() {
           <ol className="space-y-3">
             {[
               "Share your code with any business owner.",
-              "They start a project using your code.",
-              "You receive service credits once their project kicks off.",
+              "They start a project using your code and get 10% off instantly.",
+              "Once their project kicks off, you earn 10% as service credit.",
             ].map((s, i) => (
               <li key={i} className="flex gap-3">
                 <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/15 text-sm font-semibold text-primary-glow">{i + 1}</span>
@@ -102,7 +102,7 @@ function Referral() {
             ))}
           </ol>
           <p className="mt-4 text-[10px] text-muted-foreground">
-            Rewards are service credits applied to future Socilet projects. Not cash. Terms apply.
+            Your 10% reward is issued as service credit on future Socilet projects. Discount applies once per new client. Terms apply.
           </p>
         </section>
       </main>
