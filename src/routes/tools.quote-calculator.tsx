@@ -160,12 +160,7 @@ function QuoteCalculator() {
             <Link to="/estimator">Get detailed estimate & start project</Link>
           </Button>
           <Button asChild variant="outline" size="lg">
-            <Link
-              to="/tools/quotation-maker"
-              search={{ type, features: selected.join(","), price: ourPrice } as any}
-            >
-              Generate PDF quotation
-            </Link>
+            <Link to="/tools/quotation-maker">Generate PDF quotation</Link>
           </Button>
         </div>
       </main>
