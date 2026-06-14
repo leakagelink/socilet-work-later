@@ -1,10 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ArrowLeft, Search, CheckCircle2, AlertCircle, XCircle, Loader2 } from "lucide-react";
+import { runPageSpeedFn } from "@/lib/pagespeed.functions";
+
 
 export const Route = createFileRoute("/tools/seo-checker")({
   head: () => ({
@@ -27,14 +30,10 @@ type Result = {
   failed: Audit[];
 };
 
-async function runPageSpeed(url: string): Promise<Result> {
-  const api = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&category=seo&category=performance&category=accessibility&category=best-practices&strategy=mobile`;
-  const res = await fetch(api);
-  if (!res.ok) throw new Error("Failed to fetch SEO data");
-  const data = await res.json();
+function parsePageSpeed(url: string, data: any): Result {
   const cats = data.lighthouseResult.categories;
   const audits = data.lighthouseResult.audits;
-  const seoAuditRefs = cats.seo.auditRefs as Array<{ id: string }>;
+  const seoAuditRefs = (cats.seo?.auditRefs ?? []) as Array<{ id: string }>;
   const passed: Audit[] = [];
   const failed: Audit[] = [];
   for (const ref of seoAuditRefs) {
@@ -46,14 +45,15 @@ async function runPageSpeed(url: string): Promise<Result> {
   }
   return {
     url,
-    seoScore: Math.round((cats.seo.score ?? 0) * 100),
-    perfScore: Math.round((cats.performance.score ?? 0) * 100),
-    accessibilityScore: Math.round((cats.accessibility.score ?? 0) * 100),
-    bestPracticesScore: Math.round((cats["best-practices"].score ?? 0) * 100),
+    seoScore: Math.round((cats.seo?.score ?? 0) * 100),
+    perfScore: Math.round((cats.performance?.score ?? 0) * 100),
+    accessibilityScore: Math.round((cats.accessibility?.score ?? 0) * 100),
+    bestPracticesScore: Math.round((cats["best-practices"]?.score ?? 0) * 100),
     passed,
     failed,
   };
 }
+
 
 function normalizeUrl(input: string) {
   let u = input.trim();
@@ -93,19 +93,28 @@ function SeoChecker() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<Result | null>(null);
   const [error, setError] = useState("");
+  const runPageSpeed = useServerFn(runPageSpeedFn);
 
   const check = async () => {
     if (!url.trim()) return;
     setLoading(true); setError(""); setResult(null);
     try {
-      const r = await runPageSpeed(normalizeUrl(url));
-      setResult(r);
+      const normalized = normalizeUrl(url);
+      const data = await runPageSpeed({
+        data: {
+          url: normalized,
+          strategy: "mobile",
+          categories: ["seo", "performance", "accessibility", "best-practices"],
+        },
+      });
+      setResult(parsePageSpeed(normalized, data));
     } catch (e: any) {
       setError(e.message || "Something went wrong. Try again.");
     } finally {
       setLoading(false);
     }
   };
+
 
   return (
     <>
