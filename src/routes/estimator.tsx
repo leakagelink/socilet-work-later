@@ -108,8 +108,15 @@ function Estimator() {
     } catch {}
   }, []);
 
-  const totalSteps = 5;
-  const progress = (step / totalSteps) * 100;
+  const isLanding = projectType === "landing";
+  const stepFlow = isLanding ? [1, 4, 5] : [1, 2, 3, 4, 5];
+  const currentIdx = Math.max(0, stepFlow.indexOf(step));
+  const totalSteps = stepFlow.length;
+  const displayStep = currentIdx + 1;
+  const progress = (displayStep / totalSteps) * 100;
+  const isLastStep = currentIdx === stepFlow.length - 1;
+  const goNext = () => setStep(stepFlow[Math.min(currentIdx + 1, stepFlow.length - 1)]);
+  const goBack = () => setStep(stepFlow[Math.max(currentIdx - 1, 0)]);
 
   const proj = projectTypes.find((p) => p.id === projectType);
   const base = proj?.base ?? 0;
@@ -182,7 +189,7 @@ function Estimator() {
       <AppHeader title="AI Project Estimator" back />
       <main className="px-5 py-5">
         <Progress value={progress} className="mb-1 h-1.5" />
-        <p className="mb-5 text-xs text-muted-foreground">Step {step} of {totalSteps}</p>
+        <p className="mb-5 text-xs text-muted-foreground">Step {displayStep} of {totalSteps}</p>
 
         {step === 1 && (
           <section>
@@ -487,14 +494,14 @@ function Estimator() {
         )}
 
         <div className="mt-8 flex gap-2">
-          {step > 1 && (
-            <Button variant="outline" className="flex-1 bg-transparent" onClick={() => setStep(step - 1)}>Back</Button>
+          {currentIdx > 0 && (
+            <Button variant="outline" className="flex-1 bg-transparent" onClick={goBack}>Back</Button>
           )}
-          {step < totalSteps ? (
+          {!isLastStep ? (
             <Button
               className="flex-1 bg-gradient-primary shadow-glow"
               disabled={(step === 1 && !projectType) || (step === 4 && !timeline)}
-              onClick={() => setStep(step + 1)}
+              onClick={goNext}
             >
               Continue
             </Button>
