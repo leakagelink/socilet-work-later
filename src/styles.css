@@ -162,6 +162,11 @@
   color: transparent;
 }
 @utility glass {
+  background: oklch(0.18 0.04 270 / 0.04);
+  backdrop-filter: blur(14px);
+  border: 1px solid oklch(0.18 0.04 270 / 0.08);
+}
+@utility glass-dark {
   background: oklch(1 0 0 / 0.04);
   backdrop-filter: blur(14px);
   border: 1px solid oklch(1 0 0 / 0.08);
