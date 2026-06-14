@@ -19,13 +19,18 @@ export type Database = {
           budget_max: number | null
           budget_min: number | null
           created_at: string
+          design_status: string | null
           email: string
           features: Json
           id: string
           name: string
           notes: string | null
+          pages_count: number | null
           phone: string | null
           project_type: string
+          reference_links: string | null
+          referral_source: string | null
+          tech_preference: string | null
           timeline: string | null
           user_budget: number | null
         }
@@ -33,13 +38,18 @@ export type Database = {
           budget_max?: number | null
           budget_min?: number | null
           created_at?: string
+          design_status?: string | null
           email: string
           features?: Json
           id?: string
           name: string
           notes?: string | null
+          pages_count?: number | null
           phone?: string | null
           project_type: string
+          reference_links?: string | null
+          referral_source?: string | null
+          tech_preference?: string | null
           timeline?: string | null
           user_budget?: number | null
         }
@@ -47,13 +57,18 @@ export type Database = {
           budget_max?: number | null
           budget_min?: number | null
           created_at?: string
+          design_status?: string | null
           email?: string
           features?: Json
           id?: string
           name?: string
           notes?: string | null
+          pages_count?: number | null
           phone?: string | null
           project_type?: string
+          reference_links?: string | null
+          referral_source?: string | null
+          tech_preference?: string | null
           timeline?: string | null
           user_budget?: number | null
         }
