@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ToolsRouteImport } from './routes/tools'
 import { Route as SupportRouteImport } from './routes/support'
 import { Route as SplashRouteImport } from './routes/splash'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
@@ -22,8 +23,18 @@ import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ToolsIndexRouteImport } from './routes/tools.index'
+import { Route as ToolsSpeedTestRouteImport } from './routes/tools.speed-test'
+import { Route as ToolsSeoCheckerRouteImport } from './routes/tools.seo-checker'
+import { Route as ToolsQuoteCalculatorRouteImport } from './routes/tools.quote-calculator'
+import { Route as ToolsQuotationMakerRouteImport } from './routes/tools.quotation-maker'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 
+const ToolsRoute = ToolsRouteImport.update({
+  id: '/tools',
+  path: '/tools',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SupportRoute = SupportRouteImport.update({
   id: '/support',
   path: '/support',
@@ -88,6 +99,31 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ToolsIndexRoute = ToolsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ToolsRoute,
+} as any)
+const ToolsSpeedTestRoute = ToolsSpeedTestRouteImport.update({
+  id: '/speed-test',
+  path: '/speed-test',
+  getParentRoute: () => ToolsRoute,
+} as any)
+const ToolsSeoCheckerRoute = ToolsSeoCheckerRouteImport.update({
+  id: '/seo-checker',
+  path: '/seo-checker',
+  getParentRoute: () => ToolsRoute,
+} as any)
+const ToolsQuoteCalculatorRoute = ToolsQuoteCalculatorRouteImport.update({
+  id: '/quote-calculator',
+  path: '/quote-calculator',
+  getParentRoute: () => ToolsRoute,
+} as any)
+const ToolsQuotationMakerRoute = ToolsQuotationMakerRouteImport.update({
+  id: '/quotation-maker',
+  path: '/quotation-maker',
+  getParentRoute: () => ToolsRoute,
+} as any)
 const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -107,7 +143,13 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/splash': typeof SplashRoute
   '/support': typeof SupportRoute
+  '/tools': typeof ToolsRouteWithChildren
   '/admin': typeof AuthenticatedAdminRoute
+  '/tools/quotation-maker': typeof ToolsQuotationMakerRoute
+  '/tools/quote-calculator': typeof ToolsQuoteCalculatorRoute
+  '/tools/seo-checker': typeof ToolsSeoCheckerRoute
+  '/tools/speed-test': typeof ToolsSpeedTestRoute
+  '/tools/': typeof ToolsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -123,6 +165,11 @@ export interface FileRoutesByTo {
   '/splash': typeof SplashRoute
   '/support': typeof SupportRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/tools/quotation-maker': typeof ToolsQuotationMakerRoute
+  '/tools/quote-calculator': typeof ToolsQuoteCalculatorRoute
+  '/tools/seo-checker': typeof ToolsSeoCheckerRoute
+  '/tools/speed-test': typeof ToolsSpeedTestRoute
+  '/tools': typeof ToolsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -139,7 +186,13 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/splash': typeof SplashRoute
   '/support': typeof SupportRoute
+  '/tools': typeof ToolsRouteWithChildren
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/tools/quotation-maker': typeof ToolsQuotationMakerRoute
+  '/tools/quote-calculator': typeof ToolsQuoteCalculatorRoute
+  '/tools/seo-checker': typeof ToolsSeoCheckerRoute
+  '/tools/speed-test': typeof ToolsSpeedTestRoute
+  '/tools/': typeof ToolsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -156,7 +209,13 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/splash'
     | '/support'
+    | '/tools'
     | '/admin'
+    | '/tools/quotation-maker'
+    | '/tools/quote-calculator'
+    | '/tools/seo-checker'
+    | '/tools/speed-test'
+    | '/tools/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -172,6 +231,11 @@ export interface FileRouteTypes {
     | '/splash'
     | '/support'
     | '/admin'
+    | '/tools/quotation-maker'
+    | '/tools/quote-calculator'
+    | '/tools/seo-checker'
+    | '/tools/speed-test'
+    | '/tools'
   id:
     | '__root__'
     | '/'
@@ -187,7 +251,13 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/splash'
     | '/support'
+    | '/tools'
     | '/_authenticated/admin'
+    | '/tools/quotation-maker'
+    | '/tools/quote-calculator'
+    | '/tools/seo-checker'
+    | '/tools/speed-test'
+    | '/tools/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -204,10 +274,18 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SplashRoute: typeof SplashRoute
   SupportRoute: typeof SupportRoute
+  ToolsRoute: typeof ToolsRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/tools': {
+      id: '/tools'
+      path: '/tools'
+      fullPath: '/tools'
+      preLoaderRoute: typeof ToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/support': {
       id: '/support'
       path: '/support'
@@ -299,6 +377,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tools/': {
+      id: '/tools/'
+      path: '/'
+      fullPath: '/tools/'
+      preLoaderRoute: typeof ToolsIndexRouteImport
+      parentRoute: typeof ToolsRoute
+    }
+    '/tools/speed-test': {
+      id: '/tools/speed-test'
+      path: '/speed-test'
+      fullPath: '/tools/speed-test'
+      preLoaderRoute: typeof ToolsSpeedTestRouteImport
+      parentRoute: typeof ToolsRoute
+    }
+    '/tools/seo-checker': {
+      id: '/tools/seo-checker'
+      path: '/seo-checker'
+      fullPath: '/tools/seo-checker'
+      preLoaderRoute: typeof ToolsSeoCheckerRouteImport
+      parentRoute: typeof ToolsRoute
+    }
+    '/tools/quote-calculator': {
+      id: '/tools/quote-calculator'
+      path: '/quote-calculator'
+      fullPath: '/tools/quote-calculator'
+      preLoaderRoute: typeof ToolsQuoteCalculatorRouteImport
+      parentRoute: typeof ToolsRoute
+    }
+    '/tools/quotation-maker': {
+      id: '/tools/quotation-maker'
+      path: '/quotation-maker'
+      fullPath: '/tools/quotation-maker'
+      preLoaderRoute: typeof ToolsQuotationMakerRouteImport
+      parentRoute: typeof ToolsRoute
+    }
     '/_authenticated/admin': {
       id: '/_authenticated/admin'
       path: '/admin'
@@ -320,6 +433,24 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface ToolsRouteChildren {
+  ToolsQuotationMakerRoute: typeof ToolsQuotationMakerRoute
+  ToolsQuoteCalculatorRoute: typeof ToolsQuoteCalculatorRoute
+  ToolsSeoCheckerRoute: typeof ToolsSeoCheckerRoute
+  ToolsSpeedTestRoute: typeof ToolsSpeedTestRoute
+  ToolsIndexRoute: typeof ToolsIndexRoute
+}
+
+const ToolsRouteChildren: ToolsRouteChildren = {
+  ToolsQuotationMakerRoute: ToolsQuotationMakerRoute,
+  ToolsQuoteCalculatorRoute: ToolsQuoteCalculatorRoute,
+  ToolsSeoCheckerRoute: ToolsSeoCheckerRoute,
+  ToolsSpeedTestRoute: ToolsSpeedTestRoute,
+  ToolsIndexRoute: ToolsIndexRoute,
+}
+
+const ToolsRouteWithChildren = ToolsRoute._addFileChildren(ToolsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
@@ -334,6 +465,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SplashRoute: SplashRoute,
   SupportRoute: SupportRoute,
+  ToolsRoute: ToolsRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
