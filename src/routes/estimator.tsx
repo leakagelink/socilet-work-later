@@ -111,14 +111,13 @@ function Estimator() {
   const totalSteps = 5;
   const progress = (step / totalSteps) * 100;
 
-  const base = projectTypes.find((p) => p.id === projectType)?.base ?? 0;
+  const proj = projectTypes.find((p) => p.id === projectType);
+  const base = proj?.base ?? 0;
+  const maxBase = proj?.max ?? base;
   const featuresCost = features.reduce((s, id) => s + (featuresList.find((f) => f.id === id)?.cost ?? 0), 0);
-  const mult = timelines.find((t) => t.id === timeline)?.mult ?? 1;
-  const designMult = designOptions.find((d) => d.id === designStatus)?.mult ?? 1;
-  const pagesNum = pagesCount ? Math.min(Number(pagesCount), 200) : 0;
   const pagesCost = pagesNum > 5 ? (pagesNum - 5) * 80 : 0;
   const rawMin = Math.round(((base + featuresCost + pagesCost) * mult) * designMult);
-  const rawMax = Math.round(rawMin * 1.5);
+  const rawMax = Math.round(((maxBase + featuresCost + pagesCost) * mult) * designMult);
   const discountPct = referralApplied ? 0.1 : 0;
   const min = Math.round(rawMin * (1 - discountPct));
   const max = Math.round(rawMax * (1 - discountPct));
