@@ -1,0 +1,1 @@
+ALTER TABLE public.estimates ADD COLUMN IF NOT EXISTS user_budget numeric;

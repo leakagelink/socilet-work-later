@@ -55,6 +55,7 @@ function Estimator() {
   const [features, setFeatures] = useState<string[]>([]);
   const [timeline, setTimeline] = useState<string>("");
   const [contact, setContact] = useState({ name: "", email: "", phone: "", notes: "" });
+  const [userBudget, setUserBudget] = useState<string>("");
   const [submitting, setSubmitting] = useState(false);
 
   const totalSteps = 4;
@@ -75,12 +76,14 @@ function Estimator() {
       return;
     }
     setSubmitting(true);
+    const budgetNum = userBudget ? Number(userBudget.replace(/[^0-9.]/g, "")) : null;
     const { error } = await supabase.from("estimates").insert({
       project_type: projectType,
       features,
       timeline,
       budget_min: min,
       budget_max: max,
+      user_budget: budgetNum,
       name: contact.name,
       email: contact.email,
       phone: contact.phone || null,
@@ -88,8 +91,12 @@ function Estimator() {
     });
     setSubmitting(false);
     if (error) return toast.error("Could not save estimate. Try again.");
-    try { localStorage.setItem("socilet:lastEstimate", JSON.stringify({ projectType, features, timeline, min, max, at: Date.now() })); } catch {}
-    toast.success("Estimate saved! We'll be in touch.");
+    try { localStorage.setItem("socilet:lastEstimate", JSON.stringify({ projectType, features, timeline, min, max, userBudget: budgetNum, at: Date.now() })); } catch {}
+    toast.success(
+      budgetNum
+        ? "Budget received! Our team will confirm on email & WhatsApp shortly."
+        : "Estimate saved! We'll be in touch."
+    );
     navigate({ to: "/profile" });
   };
 
@@ -201,6 +208,35 @@ function Estimator() {
               <p className="font-display text-lg font-semibold text-gradient">
                 ${min.toLocaleString()} – ${max.toLocaleString()}
               </p>
+            </Card>
+
+            {/* Budget proposal */}
+            <Card className="mt-4 border-primary/30 bg-primary/5 p-4">
+              <div className="flex items-start gap-2">
+                <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-primary-glow" />
+                <div className="flex-1">
+                  <Label className="text-sm font-semibold">Your budget (optional)</Label>
+                  <p className="mt-0.5 text-xs text-muted-foreground">
+                    Share what you can invest. If it's workable, our team will confirm on email & WhatsApp.
+                  </p>
+                  <div className="relative mt-2">
+                    <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">$</span>
+                    <Input
+                      type="text"
+                      inputMode="numeric"
+                      value={userBudget}
+                      onChange={(e) => setUserBudget(e.target.value.replace(/[^0-9.]/g, ""))}
+                      placeholder="e.g. 1500"
+                      className="pl-7"
+                    />
+                  </div>
+                  {userBudget && (
+                    <p className="mt-2 rounded-md bg-background/60 px-2 py-1.5 text-[11px] text-muted-foreground">
+                      Proposing <span className="font-semibold text-foreground">${Number(userBudget).toLocaleString()}</span>. We'll review & reply within 24 hours.
+                    </p>
+                  )}
+                </div>
+              </div>
             </Card>
           </section>
         )}

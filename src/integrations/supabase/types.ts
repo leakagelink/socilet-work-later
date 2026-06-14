@@ -27,6 +27,7 @@ export type Database = {
           phone: string | null
           project_type: string
           timeline: string | null
+          user_budget: number | null
         }
         Insert: {
           budget_max?: number | null
@@ -40,6 +41,7 @@ export type Database = {
           phone?: string | null
           project_type: string
           timeline?: string | null
+          user_budget?: number | null
         }
         Update: {
           budget_max?: number | null
@@ -53,6 +55,7 @@ export type Database = {
           phone?: string | null
           project_type?: string
           timeline?: string | null
+          user_budget?: number | null
         }
         Relationships: []
       }
