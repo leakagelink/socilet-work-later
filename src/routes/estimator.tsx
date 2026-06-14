@@ -55,6 +55,7 @@ function Estimator() {
   const [features, setFeatures] = useState<string[]>([]);
   const [timeline, setTimeline] = useState<string>("");
   const [contact, setContact] = useState({ name: "", email: "", phone: "", notes: "" });
+  const [userBudget, setUserBudget] = useState<string>("");
   const [submitting, setSubmitting] = useState(false);
 
   const totalSteps = 4;
