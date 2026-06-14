@@ -76,12 +76,14 @@ function Estimator() {
       return;
     }
     setSubmitting(true);
+    const budgetNum = userBudget ? Number(userBudget.replace(/[^0-9.]/g, "")) : null;
     const { error } = await supabase.from("estimates").insert({
       project_type: projectType,
       features,
       timeline,
       budget_min: min,
       budget_max: max,
+      user_budget: budgetNum,
       name: contact.name,
       email: contact.email,
       phone: contact.phone || null,
@@ -89,8 +91,12 @@ function Estimator() {
     });
     setSubmitting(false);
     if (error) return toast.error("Could not save estimate. Try again.");
-    try { localStorage.setItem("socilet:lastEstimate", JSON.stringify({ projectType, features, timeline, min, max, at: Date.now() })); } catch {}
-    toast.success("Estimate saved! We'll be in touch.");
+    try { localStorage.setItem("socilet:lastEstimate", JSON.stringify({ projectType, features, timeline, min, max, userBudget: budgetNum, at: Date.now() })); } catch {}
+    toast.success(
+      budgetNum
+        ? "Budget received! Our team will confirm on email & WhatsApp shortly."
+        : "Estimate saved! We'll be in touch."
+    );
     navigate({ to: "/profile" });
   };
 
