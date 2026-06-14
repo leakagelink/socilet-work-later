@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { User, FileText, Briefcase, Ticket, Gift, ChevronRight, Bell, BookOpen, Wrench, Shield, LogOut, LogIn, HelpCircle } from "lucide-react";
+import { User, FileText, Briefcase, Ticket, Gift, ChevronRight, Bell, BookOpen, Wrench, Shield, LogOut, LogIn, HelpCircle, Route } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
