@@ -35,11 +35,6 @@ const reasons = [
   { icon: Wallet, title: "Flexible billing", desc: "Pay after deliverables are approved." },
 ];
 
-const testimonials = [
-  { name: "Priya R.", role: "Founder, Bloom Co.", quote: "Socilet shipped our store in 3 weeks. Sales doubled in month one." },
-  { name: "Arjun M.", role: "CEO, FinEdge", quote: "Their AI automation saved us 30+ hours every week. Real ROI." },
-  { name: "Sara K.", role: "Marketing Lead", quote: "Best agency we've worked with. Communication is unmatched." },
-];
 
 function Home() {
   return (
