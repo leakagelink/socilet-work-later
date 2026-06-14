@@ -3,10 +3,17 @@ import { useEffect, useState } from "react";
 import { AppHeader } from "@/components/layout/AppHeader";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { User, FileText, Briefcase, Ticket, Gift, ChevronRight, Bell, BookOpen, Wrench, Shield, LogOut, LogIn, HelpCircle, Route as RouteIcon } from "lucide-react";
+import {
+  AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
+  AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { User, FileText, Briefcase, Ticket, Gift, ChevronRight, Bell, BookOpen, Wrench, Shield, LogOut, LogIn, HelpCircle, Route as RouteIcon, FileLock, Scale, Receipt, Trash2 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { useServerFn } from "@tanstack/react-start";
+import { deleteMyAccount } from "@/lib/account.functions";
 
 export const Route = createFileRoute("/profile")({
   ssr: false,
@@ -40,10 +47,26 @@ function Profile() {
       .then(({ data }) => setFullName(data?.full_name ?? null));
   }, [user]);
 
+  const [deleting, setDeleting] = useState(false);
+  const deleteAccountFn = useServerFn(deleteMyAccount);
+
   const handleLogout = async () => {
     await supabase.auth.signOut();
     toast.success("Signed out");
     navigate({ to: "/" });
+  };
+
+  const handleDeleteAccount = async () => {
+    setDeleting(true);
+    try {
+      await deleteAccountFn({ data: undefined as never });
+      await supabase.auth.signOut();
+      toast.success("Account deleted");
+      navigate({ to: "/" });
+    } catch (e: any) {
+      toast.error(e?.message ?? "Could not delete account");
+      setDeleting(false);
+    }
   };
 
   const menu = [
@@ -56,6 +79,12 @@ function Profile() {
     { to: "/notifications" as const, icon: Bell, label: "Notifications", desc: "Updates & offers" },
     { to: "/blog" as const, icon: BookOpen, label: "Blog", desc: "Read insights" },
     { to: "/services" as const, icon: Wrench, label: "Services", desc: "Explore all" },
+  ];
+
+  const legal = [
+    { to: "/privacy-policy" as const, icon: FileLock, label: "Privacy Policy" },
+    { to: "/terms" as const, icon: Scale, label: "Terms of Service" },
+    { to: "/refund-policy" as const, icon: Receipt, label: "Refund Policy" },
   ];
 
   return (
@@ -126,10 +155,62 @@ function Profile() {
           ))}
         </div>
 
+        {/* Legal */}
+        <div className="mt-6">
+          <p className="mb-2 px-1 text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+            Legal
+          </p>
+          <div className="space-y-2">
+            {legal.map(({ to, icon: Icon, label }) => (
+              <Link key={to} to={to}>
+                <Card className="flex items-center gap-3 border-border bg-card p-3.5">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-secondary text-primary-glow">
+                    <Icon className="h-4 w-4" />
+                  </div>
+                  <p className="flex-1 text-sm font-medium">{label}</p>
+                  <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </div>
+
         {user && (
-          <Button onClick={handleLogout} variant="outline" className="mt-5 w-full">
-            <LogOut className="mr-2 h-4 w-4" /> Sign out
-          </Button>
+          <>
+            <Button onClick={handleLogout} variant="outline" className="mt-5 w-full">
+              <LogOut className="mr-2 h-4 w-4" /> Sign out
+            </Button>
+
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="mt-3 w-full border-destructive/40 text-destructive hover:bg-destructive/10 hover:text-destructive"
+                >
+                  <Trash2 className="mr-2 h-4 w-4" /> Delete my account
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Delete your account?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This permanently deletes your profile, estimates, tickets, referrals
+                    and notifications. This action cannot be undone.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel disabled={deleting}>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    disabled={deleting}
+                    onClick={handleDeleteAccount}
+                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                  >
+                    {deleting ? "Deleting…" : "Delete forever"}
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </>
         )}
 
         <p className="mt-6 text-center text-[10px] text-muted-foreground">
