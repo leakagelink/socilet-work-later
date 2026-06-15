@@ -109,7 +109,7 @@ function Estimator() {
   }, []);
 
   const isLanding = projectType === "landing";
-  const stepFlow = isLanding ? [1, 4, 5] : [1, 2, 3, 4, 5];
+  const stepFlow = isLanding ? [1, 4, 5] : [1, 3, 4, 5];
   const currentIdx = Math.max(0, stepFlow.indexOf(step));
   const totalSteps = stepFlow.length;
   const displayStep = currentIdx + 1;
