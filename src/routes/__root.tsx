@@ -106,6 +106,21 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const [showSplash, setShowSplash] = useState(true);
 
+  // Native Capacitor splash ko hide karo jab React app mount ho jaye
+  useEffect(() => {
+    (async () => {
+      try {
+        const { Capacitor } = await import("@capacitor/core");
+        if (Capacitor.isNativePlatform()) {
+          const { SplashScreen: CapSplash } = await import("@capacitor/splash-screen");
+          await CapSplash.hide({ fadeOutDuration: 300 });
+        }
+      } catch {
+        // plugin not installed in web — ignore
+      }
+    })();
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
@@ -120,3 +135,4 @@ function RootComponent() {
     </QueryClientProvider>
   );
 }
+
