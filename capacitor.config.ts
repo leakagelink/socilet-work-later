@@ -18,6 +18,19 @@ const config: CapacitorConfig = {
     PushNotifications: {
       presentationOptions: ['badge', 'sound', 'alert'],
     },
+    SplashScreen: {
+      // Native splash dikhti hai jab tak WebView website load nahi karta
+      launchShowDuration: 3000,
+      launchAutoHide: false, // hum manually hide karenge jab app ready ho
+      backgroundColor: '#0F172A', // app ke background se match
+      androidSplashResourceName: 'splash',
+      androidScaleType: 'CENTER_CROP',
+      showSpinner: true,
+      androidSpinnerStyle: 'large',
+      spinnerColor: '#3B82F6',
+      splashFullScreen: true,
+      splashImmersive: true,
+    },
   },
 };
 
